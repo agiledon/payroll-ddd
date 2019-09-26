@@ -15,7 +15,7 @@ public class Money {
         this.currency = currency;
     }
 
-    public Money multiple(int factor) {
+    public Money multiply(int factor) {
         return new Money(value * factor, currency);
     }
 

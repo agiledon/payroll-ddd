@@ -19,6 +19,6 @@ public class HourlyEmployee {
 
         Collections.sort(timeCards);
 
-        return new Payroll(timeCards.get(0).workDay(), timeCards.get(timeCards.size() - 1).workDay(), salaryOfHour.multiple(totalHours));
+        return new Payroll(timeCards.get(0).workDay(), timeCards.get(timeCards.size() - 1).workDay(), salaryOfHour.multiply(totalHours));
     }
 }
