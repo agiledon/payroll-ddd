@@ -17,12 +17,12 @@ public class HourlyEmployee {
 
     public Payroll payroll() {
         int regularHours = timeCards.stream()
-                .map(tc -> tc.workHours() > MAXIMUM_REGULAR_HOURS ? MAXIMUM_REGULAR_HOURS : tc.workHours())
+                .map(tc -> getRegularWorkHours(tc))
                 .reduce(0, (hours, total) -> hours + total);
 
         int overtimeHours = timeCards.stream()
-                .filter(tc -> tc.workHours() > MAXIMUM_REGULAR_HOURS)
-                .map(tc -> tc.workHours() - MAXIMUM_REGULAR_HOURS)
+                .filter(tc -> isOvertime(tc))
+                .map(tc -> getOvertimeWorkHours(tc))
                 .reduce(0, (hours, total) -> hours + total);
 
         Money regularSalary = salaryOfHour.multiply(regularHours);
@@ -33,6 +33,18 @@ public class HourlyEmployee {
                 settlementPeriod().beginDate,
                 settlementPeriod().endDate,
                 totalSalary);
+    }
+
+    private int getOvertimeWorkHours(TimeCard tc) {
+        return tc.workHours() - MAXIMUM_REGULAR_HOURS;
+    }
+
+    private boolean isOvertime(TimeCard tc) {
+        return tc.workHours() > MAXIMUM_REGULAR_HOURS;
+    }
+
+    private int getRegularWorkHours(TimeCard tc) {
+        return isOvertime(tc) ? MAXIMUM_REGULAR_HOURS : tc.workHours();
     }
 
     private Period settlementPeriod() {
