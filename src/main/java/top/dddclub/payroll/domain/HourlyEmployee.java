@@ -15,23 +15,30 @@ public class HourlyEmployee {
     }
 
     public Payroll payroll() {
-        int regularHours = timeCards.stream()
-                .map(TimeCard::getRegularWorkHours)
-                .reduce(0, (hours, total) -> hours + total);
-
-        int overtimeHours = timeCards.stream()
-                .filter(TimeCard::isOvertime)
-                .map(TimeCard::getOvertimeWorkHours)
-                .reduce(0, (hours, total) -> hours + total);
-
-        Money regularSalary = salaryOfHour.multiply(regularHours);
-        Money overtimeSalary = salaryOfHour.multiply(OVERTIME_FACTOR).multiply(overtimeHours);
+        Money regularSalary = calculateRegularSalary();
+        Money overtimeSalary = calculateOvertimeSalary();
         Money totalSalary = regularSalary.add(overtimeSalary);
 
         return new Payroll(
                 settlementPeriod().beginDate,
                 settlementPeriod().endDate,
                 totalSalary);
+    }
+
+    private Money calculateRegularSalary() {
+        int regularHours = timeCards.stream()
+                .map(TimeCard::getRegularWorkHours)
+                .reduce(0, (hours, total) -> hours + total);
+        return salaryOfHour.multiply(regularHours);
+    }
+
+    private Money calculateOvertimeSalary() {
+        int overtimeHours = timeCards.stream()
+                .filter(TimeCard::isOvertime)
+                .map(TimeCard::getOvertimeWorkHours)
+                .reduce(0, (hours, total) -> hours + total);
+
+        return salaryOfHour.multiply(OVERTIME_FACTOR).multiply(overtimeHours);
     }
 
     private Period settlementPeriod() {
