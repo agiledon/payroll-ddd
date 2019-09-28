@@ -22,6 +22,10 @@ public class Money {
         this.currency = currency;
     }
 
+    public Money add(Money money) {
+        return new Money(value.add(money.value).setScale(SCALE), currency);
+    }
+
     public Money multiply(double factor) {
         BigDecimal factorDecimal = new BigDecimal(Double.toString(factor));
         return new Money(value.multiply(factorDecimal).setScale(SCALE), currency);

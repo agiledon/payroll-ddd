@@ -14,8 +14,8 @@ public class HourlyEmployee {
     }
 
     public Payroll payroll() {
-        int totalHours = timeCards.stream()
-                .map(tc -> tc.workHours())
+        int regularHours = timeCards.stream()
+                .map(tc -> tc.workHours() > 8 ? 8 : tc.workHours())
                 .reduce(0, (hours, total) -> hours + total);
 
         int overtimeHours = timeCards.stream()
@@ -23,11 +23,14 @@ public class HourlyEmployee {
                 .map(tc -> tc.workHours() - 8)
                 .reduce(0, (hours, total) -> hours + total);
 
+        Money regularSalary = salaryOfHour.multiply(regularHours);
+        Money overtimeSalary = salaryOfHour.multiply(1.5).multiply(overtimeHours);
+        Money totalSalary = regularSalary.add(overtimeSalary);
 
         return new Payroll(
                 settlementPeriod().beginDate,
                 settlementPeriod().endDate,
-                salaryOfHour.multiply(totalHours));
+                totalSalary);
     }
 
     private Period settlementPeriod() {
