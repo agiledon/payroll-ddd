@@ -18,6 +18,12 @@ public class HourlyEmployee {
                 .map(tc -> tc.workHours())
                 .reduce(0, (hours, total) -> hours + total);
 
+        int overtimeHours = timeCards.stream()
+                .filter(tc -> tc.workHours() > 8)
+                .map(tc -> tc.workHours() - 8)
+                .reduce(0, (hours, total) -> hours + total);
+
+
         return new Payroll(
                 settlementPeriod().beginDate,
                 settlementPeriod().endDate,

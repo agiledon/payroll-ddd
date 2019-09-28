@@ -13,7 +13,7 @@ public class HourlyEmployeeTest {
     public void should_calculate_payroll_by_work_hours_in_a_week() {
         //given
         List<TimeCard> timeCards = createTimeCards(8, 8, 8, 8, 8);
-        Money salaryOfHour = Money.of(10000, Currency.RMB);
+        Money salaryOfHour = Money.of(100.00, Currency.RMB);
         HourlyEmployee hourlyEmployee = new HourlyEmployee(timeCards, salaryOfHour);
 
         //when
@@ -23,14 +23,14 @@ public class HourlyEmployeeTest {
         assertThat(payroll).isNotNull();
         assertThat(payroll.beginDate()).isEqualTo(LocalDate.of(2019, 9, 2));
         assertThat(payroll.endDate()).isEqualTo(LocalDate.of(2019, 9, 6));
-        assertThat(payroll.amount()).isEqualTo(Money.of(400000, Currency.RMB));
+        assertThat(payroll.amount()).isEqualTo(Money.of(4000.00, Currency.RMB));
     }
 
     @Test
     public void should_calculate_payroll_by_work_hours_with_overtime_in_a_week() {
         //given
         List<TimeCard> timeCards = createTimeCards(9, 7, 10, 10, 8);
-        Money salaryOfHour = Money.of(10000, Currency.RMB);
+        Money salaryOfHour = Money.of(100.00, Currency.RMB);
         HourlyEmployee hourlyEmployee = new HourlyEmployee(timeCards, salaryOfHour);
 
         //when
@@ -40,7 +40,7 @@ public class HourlyEmployeeTest {
         assertThat(payroll).isNotNull();
         assertThat(payroll.beginDate()).isEqualTo(LocalDate.of(2019, 9, 2));
         assertThat(payroll.endDate()).isEqualTo(LocalDate.of(2019, 9, 6));
-        assertThat(payroll.amount()).isEqualTo(Money.of(465000, Currency.RMB));
+        assertThat(payroll.amount()).isEqualTo(Money.of(4650.00, Currency.RMB));
     }
 
     private List<TimeCard> createTimeCards(int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
