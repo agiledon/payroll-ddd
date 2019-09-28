@@ -3,6 +3,7 @@ package top.dddclub.payroll.domain;
 import java.time.LocalDate;
 
 public class TimeCard implements Comparable<TimeCard> {
+    private static final int MAXIMUM_REGULAR_HOURS = 8;
     private LocalDate workDay;
     private int workHours;
 
@@ -17,6 +18,18 @@ public class TimeCard implements Comparable<TimeCard> {
 
     public LocalDate workDay() {
         return this.workDay;
+    }
+
+    public boolean isOvertime() {
+        return workHours() > MAXIMUM_REGULAR_HOURS;
+    }
+
+    public int getOvertimeWorkHours() {
+        return workHours() - MAXIMUM_REGULAR_HOURS;
+    }
+
+    public int getRegularWorkHours() {
+        return isOvertime() ? MAXIMUM_REGULAR_HOURS : workHours();
     }
 
     @Override

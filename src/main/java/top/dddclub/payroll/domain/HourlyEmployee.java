@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class HourlyEmployee {
-    public static final int MAXIMUM_REGULAR_HOURS = 8;
-    public static final double OVERTIME_FACTOR = 1.5;
+    private static final double OVERTIME_FACTOR = 1.5;
     private List<TimeCard> timeCards;
     private Money salaryOfHour;
 
@@ -17,12 +16,12 @@ public class HourlyEmployee {
 
     public Payroll payroll() {
         int regularHours = timeCards.stream()
-                .map(tc -> getRegularWorkHours(tc))
+                .map(TimeCard::getRegularWorkHours)
                 .reduce(0, (hours, total) -> hours + total);
 
         int overtimeHours = timeCards.stream()
-                .filter(tc -> isOvertime(tc))
-                .map(tc -> getOvertimeWorkHours(tc))
+                .filter(TimeCard::isOvertime)
+                .map(TimeCard::getOvertimeWorkHours)
                 .reduce(0, (hours, total) -> hours + total);
 
         Money regularSalary = salaryOfHour.multiply(regularHours);
@@ -33,18 +32,6 @@ public class HourlyEmployee {
                 settlementPeriod().beginDate,
                 settlementPeriod().endDate,
                 totalSalary);
-    }
-
-    private int getOvertimeWorkHours(TimeCard tc) {
-        return tc.workHours() - MAXIMUM_REGULAR_HOURS;
-    }
-
-    private boolean isOvertime(TimeCard tc) {
-        return tc.workHours() > MAXIMUM_REGULAR_HOURS;
-    }
-
-    private int getRegularWorkHours(TimeCard tc) {
-        return isOvertime(tc) ? MAXIMUM_REGULAR_HOURS : tc.workHours();
     }
 
     private Period settlementPeriod() {
