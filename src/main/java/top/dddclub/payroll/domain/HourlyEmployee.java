@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class HourlyEmployee {
+    public static final int MAXIMUM_REGULAR_HOURS = 8;
+    public static final double OVERTIME_FACTOR = 1.5;
     private List<TimeCard> timeCards;
     private Money salaryOfHour;
 
@@ -15,16 +17,16 @@ public class HourlyEmployee {
 
     public Payroll payroll() {
         int regularHours = timeCards.stream()
-                .map(tc -> tc.workHours() > 8 ? 8 : tc.workHours())
+                .map(tc -> tc.workHours() > MAXIMUM_REGULAR_HOURS ? MAXIMUM_REGULAR_HOURS : tc.workHours())
                 .reduce(0, (hours, total) -> hours + total);
 
         int overtimeHours = timeCards.stream()
-                .filter(tc -> tc.workHours() > 8)
-                .map(tc -> tc.workHours() - 8)
+                .filter(tc -> tc.workHours() > MAXIMUM_REGULAR_HOURS)
+                .map(tc -> tc.workHours() - MAXIMUM_REGULAR_HOURS)
                 .reduce(0, (hours, total) -> hours + total);
 
         Money regularSalary = salaryOfHour.multiply(regularHours);
-        Money overtimeSalary = salaryOfHour.multiply(1.5).multiply(overtimeHours);
+        Money overtimeSalary = salaryOfHour.multiply(OVERTIME_FACTOR).multiply(overtimeHours);
         Money totalSalary = regularSalary.add(overtimeSalary);
 
         return new Payroll(
