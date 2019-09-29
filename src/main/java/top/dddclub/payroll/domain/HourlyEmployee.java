@@ -14,21 +14,21 @@ public class HourlyEmployee {
         this.salaryOfHour = salaryOfHour;
     }
 
-    public Payroll payroll() {
+    public Payroll payroll(Period period) {
         Money regularSalary = calculateRegularSalary();
         Money overtimeSalary = calculateOvertimeSalary();
         Money totalSalary = regularSalary.add(overtimeSalary);
 
         return new Payroll(
-                settlementPeriod().beginDate,
-                settlementPeriod().endDate,
+                period.beginDate(),
+                period.endDate(),
                 totalSalary);
     }
 
     private Money calculateRegularSalary() {
         int regularHours = timeCards.stream()
                 .map(TimeCard::getRegularWorkHours)
-                .reduce(0, (hours, total) -> hours + total);
+                .reduce(0, Integer::sum);
         return salaryOfHour.multiply(regularHours);
     }
 
@@ -36,26 +36,8 @@ public class HourlyEmployee {
         int overtimeHours = timeCards.stream()
                 .filter(TimeCard::isOvertime)
                 .map(TimeCard::getOvertimeWorkHours)
-                .reduce(0, (hours, total) -> hours + total);
+                .reduce(0, Integer::sum);
 
         return salaryOfHour.multiply(OVERTIME_FACTOR).multiply(overtimeHours);
-    }
-
-    private Period settlementPeriod() {
-        Collections.sort(timeCards);
-
-        LocalDate beginDate = timeCards.get(0).workDay();
-        LocalDate endDate = timeCards.get(timeCards.size() - 1).workDay();
-        return new Period(beginDate, endDate);
-    }
-
-    private class Period {
-        private LocalDate beginDate;
-        private LocalDate endDate;
-
-        Period(LocalDate beginDate, LocalDate endDate) {
-            this.beginDate = beginDate;
-            this.endDate = endDate;
-        }
     }
 }

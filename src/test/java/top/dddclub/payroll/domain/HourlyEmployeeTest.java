@@ -9,6 +9,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HourlyEmployeeTest {
+
+    private final Period settlementPeriod = new Period(LocalDate.of(2019, 9, 2), LocalDate.of(2019, 9, 6));
+
     @Test
     public void should_calculate_payroll_by_work_hours_in_a_week() {
         //given
@@ -17,7 +20,7 @@ public class HourlyEmployeeTest {
         HourlyEmployee hourlyEmployee = new HourlyEmployee(timeCards, salaryOfHour);
 
         //when
-        Payroll payroll = hourlyEmployee.payroll();
+        Payroll payroll = hourlyEmployee.payroll(settlementPeriod);
 
         //then
         assertThat(payroll).isNotNull();
@@ -34,7 +37,7 @@ public class HourlyEmployeeTest {
         HourlyEmployee hourlyEmployee = new HourlyEmployee(timeCards, salaryOfHour);
 
         //when
-        Payroll payroll = hourlyEmployee.payroll();
+        Payroll payroll = hourlyEmployee.payroll(settlementPeriod);
 
         //then
         assertThat(payroll).isNotNull();
