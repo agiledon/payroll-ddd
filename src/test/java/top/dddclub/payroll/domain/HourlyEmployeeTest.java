@@ -59,6 +59,19 @@ public class HourlyEmployeeTest {
         assertThat(payroll.amount()).isEqualTo(Money.of(0.00, Currency.RMB));
     }
 
+    @Test
+    public void should_be_0_given_null_timecard() {
+        //given
+        HourlyEmployee hourlyEmployee = new HourlyEmployee(null, salaryOfHour);
+
+        //when
+        Payroll payroll = hourlyEmployee.payroll(settlementPeriod);
+
+        //then
+        assertThat(payroll).isNotNull();
+        assertThat(payroll.amount()).isEqualTo(Money.zero());
+    }
+
     private List<TimeCard> createTimeCards(int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
         TimeCard timeCard1 = new TimeCard(LocalDate.of(2019, 9, 2), workHours1);
         TimeCard timeCard2 = new TimeCard(LocalDate.of(2019, 9, 3), workHours2);

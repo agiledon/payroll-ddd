@@ -3,6 +3,7 @@ package top.dddclub.payroll.domain;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class HourlyEmployee {
     private static final double OVERTIME_FACTOR = 1.5;
@@ -15,14 +16,15 @@ public class HourlyEmployee {
     }
 
     public Payroll payroll(Period period) {
+        if (Objects.isNull(timeCards) || timeCards.isEmpty()) {
+            return new Payroll(period.beginDate(), period.endDate(), Money.zero());
+        }
+
         Money regularSalary = calculateRegularSalary();
         Money overtimeSalary = calculateOvertimeSalary();
         Money totalSalary = regularSalary.add(overtimeSalary);
 
-        return new Payroll(
-                period.beginDate(),
-                period.endDate(),
-                totalSalary);
+        return new Payroll(period.beginDate(), period.endDate(), totalSalary);
     }
 
     private Money calculateRegularSalary() {

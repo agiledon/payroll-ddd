@@ -22,6 +22,10 @@ public class Money {
         this.currency = currency;
     }
 
+    public static Money zero() {
+        return new Money(0d, Currency.RMB);
+    }
+
     public Money add(Money money) {
         return new Money(value.add(money.value).setScale(SCALE), currency);
     }
