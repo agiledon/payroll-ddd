@@ -8,6 +8,10 @@ public class Money {
     private final BigDecimal value;
     private final Currency currency;
 
+    public static Money of(double value) {
+        return new Money(value, Currency.RMB);
+    }
+
     public static Money of(double value, Currency currency) {
         return new Money(value, currency);
     }
