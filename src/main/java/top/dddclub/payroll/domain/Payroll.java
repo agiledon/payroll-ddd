@@ -3,14 +3,20 @@ package top.dddclub.payroll.domain;
 import java.time.LocalDate;
 
 public class Payroll {
+    private String employeeId;
     private LocalDate beginDate;
     private LocalDate endDate;
     private Money amount;
 
-    public Payroll(LocalDate beginDate, LocalDate endDate, Money amount) {
+    public Payroll(String employeeId, LocalDate beginDate, LocalDate endDate, Money amount) {
+        this.employeeId = employeeId;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.amount = amount;
+    }
+
+    public String employeId() {
+        return this.employeeId;
     }
 
     public LocalDate beginDate() {
