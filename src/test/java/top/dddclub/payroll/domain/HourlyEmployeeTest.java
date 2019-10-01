@@ -1,12 +1,13 @@
 package top.dddclub.payroll.domain;
 
 import org.junit.Test;
+import top.dddclub.payroll.fixture.EmployeeFixture;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static top.dddclub.payroll.fixture.EmployeeFixture.createHourlyEmployee;
+import static top.dddclub.payroll.fixture.EmployeeFixture.hourlyEmployeeOf;
 
 public class HourlyEmployeeTest {
 
@@ -16,7 +17,7 @@ public class HourlyEmployeeTest {
     @Test
     public void should_calculate_payroll_by_work_hours_in_a_week() {
         //given
-        HourlyEmployee hourlyEmployee = createHourlyEmployee(employeeId, 8, 8, 8, 8, 8);
+        HourlyEmployee hourlyEmployee = hourlyEmployeeOf(employeeId, 8, 8, 8, 8, 8);
 
         //when
         Payroll payroll = hourlyEmployee.payroll(settlementPeriod);
@@ -32,7 +33,7 @@ public class HourlyEmployeeTest {
     @Test
     public void should_calculate_payroll_by_work_hours_with_overtime_in_a_week() {
         //given
-        HourlyEmployee hourlyEmployee = createHourlyEmployee(employeeId, 9, 7, 10, 10, 8);
+        HourlyEmployee hourlyEmployee = hourlyEmployeeOf(employeeId, 9, 7, 10, 10, 8);
 
         //when
         Payroll payroll = hourlyEmployee.payroll(settlementPeriod);
@@ -48,7 +49,7 @@ public class HourlyEmployeeTest {
     @Test
     public void should_be_0_given_no_any_timecard() {
         //given
-        HourlyEmployee hourlyEmployee = createHourlyEmployee(employeeId, new ArrayList<>());
+        HourlyEmployee hourlyEmployee = EmployeeFixture.hourlyEmployeeOf(employeeId, new ArrayList<>());
 
         //when
         Payroll payroll = hourlyEmployee.payroll(settlementPeriod);
@@ -62,7 +63,7 @@ public class HourlyEmployeeTest {
     @Test
     public void should_be_0_given_null_timecard() {
         //given
-        HourlyEmployee hourlyEmployee = createHourlyEmployee(employeeId, null);
+        HourlyEmployee hourlyEmployee = EmployeeFixture.hourlyEmployeeOf(employeeId, null);
 
         //when
         Payroll payroll = hourlyEmployee.payroll(settlementPeriod);

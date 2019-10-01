@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeFixture {
-    public static HourlyEmployee createHourlyEmployee(String employeeId, List<TimeCard> timeCards) {
+    public static HourlyEmployee hourlyEmployeeOf(String employeeId, List<TimeCard> timeCards) {
         Money salaryOfHour = Money.of(100.00, Currency.RMB);
         return new HourlyEmployee(employeeId, timeCards, salaryOfHour);
     }
 
-    public static HourlyEmployee createHourlyEmployee(String employeeId, int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
+    public static HourlyEmployee hourlyEmployeeOf(String employeeId, int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
         Money salaryOfHour = Money.of(100.00, Currency.RMB);
         List<TimeCard> timeCards = createTimeCards(workHours1, workHours2, workHours3, workHours4, workHours5);
         return new HourlyEmployee(employeeId, timeCards, salaryOfHour);

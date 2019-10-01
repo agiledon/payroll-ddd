@@ -2,6 +2,7 @@ package top.dddclub.payroll.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import top.dddclub.payroll.fixture.EmployeeFixture;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static top.dddclub.payroll.fixture.EmployeeFixture.createHourlyEmployee;
+import static top.dddclub.payroll.fixture.EmployeeFixture.hourlyEmployeeOf;
 
 public class HourlyEmployeePayrollCalculatorTest {
 
@@ -46,7 +47,7 @@ public class HourlyEmployeePayrollCalculatorTest {
     public void should_calculate_payroll_when_only_one_matched_employee_found() {
         //given
         String employeeId = "emp200901011111";
-        HourlyEmployee hourlyEmployee = createHourlyEmployee(employeeId, 8, 8, 8, 8, 8);
+        HourlyEmployee hourlyEmployee = hourlyEmployeeOf(employeeId, 8, 8, 8, 8, 8);
         hourlyEmployees.add(hourlyEmployee);
 
         when(mockRepo.allEmployeesOf(settlementPeriod)).thenReturn(hourlyEmployees);
@@ -66,15 +67,15 @@ public class HourlyEmployeePayrollCalculatorTest {
     public void should_calculate_payroll_when_more_than_one_matched_employee_found() {
         //given
         String employeeId1 = "emp200901011111";
-        HourlyEmployee hourlyEmployee1 = createHourlyEmployee(employeeId1, 8, 8, 8, 8, 8);
+        HourlyEmployee hourlyEmployee1 = hourlyEmployeeOf(employeeId1, 8, 8, 8, 8, 8);
         hourlyEmployees.add(hourlyEmployee1);
 
         String employeeId2 = "emp200901011112";
-        HourlyEmployee hourlyEmployee2 = createHourlyEmployee(employeeId2, 9, 7, 10, 10, 8);
+        HourlyEmployee hourlyEmployee2 = hourlyEmployeeOf(employeeId2, 9, 7, 10, 10, 8);
         hourlyEmployees.add(hourlyEmployee2);
 
         String employeeId3 = "emp200901011113";
-        HourlyEmployee hourlyEmployee3 = createHourlyEmployee(employeeId3, null);
+        HourlyEmployee hourlyEmployee3 = EmployeeFixture.hourlyEmployeeOf(employeeId3, null);
         hourlyEmployees.add(hourlyEmployee3);
 
         when(mockRepo.allEmployeesOf(settlementPeriod)).thenReturn(hourlyEmployees);
