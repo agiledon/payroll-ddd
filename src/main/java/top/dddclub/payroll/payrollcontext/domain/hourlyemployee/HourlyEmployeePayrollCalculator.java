@@ -1,4 +1,7 @@
-package top.dddclub.payroll.domain;
+package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
+
+import top.dddclub.payroll.payrollcontext.domain.Period;
+import top.dddclub.payroll.payrollcontext.domain.Payroll;
 
 import java.util.List;
 import java.util.stream.Collectors;

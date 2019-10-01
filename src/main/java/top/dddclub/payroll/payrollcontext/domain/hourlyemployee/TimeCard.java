@@ -1,4 +1,4 @@
-package top.dddclub.payroll.domain;
+package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
 import java.time.LocalDate;
 

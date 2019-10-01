@@ -1,4 +1,4 @@
-package top.dddclub.payroll.domain;
+package top.dddclub.payroll.payrollcontext.domain;
 
 import java.math.BigDecimal;
 import java.util.Objects;

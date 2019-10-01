@@ -1,7 +1,10 @@
-package top.dddclub.payroll.domain;
+package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
 import org.junit.Before;
 import org.junit.Test;
+import top.dddclub.payroll.payrollcontext.domain.Money;
+import top.dddclub.payroll.payrollcontext.domain.Period;
+import top.dddclub.payroll.payrollcontext.domain.Payroll;
 import top.dddclub.payroll.fixture.EmployeeFixture;
 
 import java.time.LocalDate;
