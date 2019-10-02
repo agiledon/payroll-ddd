@@ -45,7 +45,7 @@ public class SalariedEmployeeTest {
         Payroll payroll = salariedEmployee.payroll(settlementPeriod);
 
         //then
-        Money payrollAmount = Money.of(9772.72);
+        Money payrollAmount = Money.of(9772.73);
         assertPayroll(payroll,
                 employeeId,
                 LocalDate.of(2019, 9, 1),

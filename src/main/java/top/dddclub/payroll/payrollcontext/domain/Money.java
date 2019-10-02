@@ -17,7 +17,7 @@ public class Money {
     }
 
     private Money(double value, Currency currency) {
-        this.value = new BigDecimal(Double.toString(value)).setScale(SCALE);
+        this.value = toBigDecimal(value).setScale(SCALE);
         this.currency = currency;
     }
 
@@ -26,17 +26,38 @@ public class Money {
         this.currency = currency;
     }
 
+    public Currency currency() {
+        return this.currency;
+    }
+
     public static Money zero() {
-        return new Money(0d, Currency.RMB);
+        return zero(Currency.RMB);
+    }
+
+    public static Money zero(Currency currency) {
+        return new Money(0d, currency);
     }
 
     public Money add(Money money) {
         return new Money(value.add(money.value).setScale(SCALE), currency);
     }
 
+    public Money subtract(Money money) {
+        return new Money(value.subtract(money.value).setScale(SCALE), currency);
+    }
+
     public Money multiply(double factor) {
-        BigDecimal factorDecimal = new BigDecimal(Double.toString(factor));
+        BigDecimal factorDecimal = toBigDecimal(factor);
         return new Money(value.multiply(factorDecimal).setScale(SCALE), currency);
+    }
+
+    public Money divide(double multiplicand) {
+        BigDecimal divided = toBigDecimal(multiplicand);
+        return new Money(value.divide(divided, SCALE, BigDecimal.ROUND_DOWN), currency);
+    }
+
+    private BigDecimal toBigDecimal(double factor) {
+        return new BigDecimal(Double.toString(factor));
     }
 
     @Override
