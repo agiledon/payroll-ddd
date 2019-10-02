@@ -4,19 +4,24 @@ import top.dddclub.payroll.payrollcontext.domain.Money;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class HourlyEmployee {
     private static final double OVERTIME_FACTOR = 1.5;
     private String employeeId;
-    private List<TimeCard> timeCards;
     private Money salaryOfHour;
+    private List<TimeCard> timeCards;
 
-    public HourlyEmployee(String employeeId, List<TimeCard> timeCards, Money salaryOfHour) {
+    public HourlyEmployee(String employeeId, Money salaryOfHour) {
+        this(employeeId, salaryOfHour, new ArrayList<>());
+    }
+
+    public HourlyEmployee(String employeeId, Money salaryOfHour, List<TimeCard> timeCards) {
         this.employeeId = employeeId;
-        this.timeCards = timeCards;
         this.salaryOfHour = salaryOfHour;
+        this.timeCards = timeCards;
     }
 
     public Payroll payroll(Period period) {
