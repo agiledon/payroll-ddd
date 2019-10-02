@@ -1,5 +1,7 @@
 package top.dddclub.payroll.payrollcontext.domain;
 
+import top.dddclub.payroll.payrollcontext.domain.exceptions.InvalidDateException;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 
@@ -23,6 +25,10 @@ public class Period {
     }
 
     public Period(int year, int month) {
+        if (month < 1 || month > 12) {
+            throw new InvalidDateException("Invalid month value.");
+        }
+
         int firstDay = 1;
         int lastDay = YearMonth.of(year, month).lengthOfMonth();
 
