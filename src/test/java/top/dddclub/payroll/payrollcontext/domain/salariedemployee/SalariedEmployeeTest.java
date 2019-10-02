@@ -99,6 +99,23 @@ public class SalariedEmployeeTest {
                 expectedAmount);
     }
 
+    @Test
+    public void should_deduct_salary_if_employee_ask_many_leaves() {
+        //given
+        SalariedEmployee salariedEmployee = salariedEmployeeWithManyLeavesOf(employeeId);
+
+        //when
+        Payroll payroll = salariedEmployee.payroll(settlementPeriod);
+
+        //then
+        Money expectedAmount = Money.of(9090.92);
+        assertPayroll(payroll,
+                employeeId,
+                LocalDate.of(2019, 9, 1),
+                LocalDate.of(2019, 9, 30),
+                expectedAmount);
+    }
+
     private void assertPayroll(Payroll payroll, String employeeId, LocalDate beginDate, LocalDate endDate, Money payrollAmount) {
         assertThat(payroll).isNotNull();
         assertThat(payroll.employeId()).isEqualTo(employeeId);

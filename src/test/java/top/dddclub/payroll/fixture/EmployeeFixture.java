@@ -57,13 +57,22 @@ public class EmployeeFixture {
     }
 
     public static SalariedEmployee salariedEmployeeWithOnePaidLeaveOf(String employeeId) {
-        Absence casualLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.MaternityLeave);
-        return createSalariedEmployeeWithAbsences(employeeId, casualLeave);
+        Absence paidLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.MaternityLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, paidLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithOneDisapprovedLeaveOf(String employeeId) {
-        Absence casualLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.DisapprovedLeave);
-        return createSalariedEmployeeWithAbsences(employeeId, casualLeave);
+        Absence disapprovedLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.DisapprovedLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, disapprovedLeave);
+    }
+
+    public static SalariedEmployee salariedEmployeeWithManyLeavesOf(String employeeId) {
+        Absence sickLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.SickLeave);
+        Absence casualLeave = new Absence(employeeId, LocalDate.of(2019, 9, 3), LeaveReason.CasualLeave);
+        Absence paidLeave = new Absence(employeeId, LocalDate.of(2019, 9, 4), LeaveReason.MaternityLeave);
+        Absence disapprovedLeave = new Absence(employeeId, LocalDate.of(2019, 9, 5), LeaveReason.DisapprovedLeave);
+
+        return createSalariedEmployeeWithAbsences(employeeId, sickLeave, casualLeave, paidLeave, disapprovedLeave);
     }
 
     private static SalariedEmployee createSalariedEmployeeWithAbsences(String employeeId, Absence... leaves) {
