@@ -1,5 +1,7 @@
 package top.dddclub.payroll.payrollcontext.domain;
 
+import top.dddclub.payroll.payrollcontext.domain.exceptions.NotSameCurrencyException;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -39,21 +41,27 @@ public class Money {
     }
 
     public Money add(Money money) {
+        throwExceptionIfNotSameCurrency(money);
         return new Money(value.add(money.value).setScale(SCALE), currency);
     }
 
     public Money subtract(Money money) {
+        throwExceptionIfNotSameCurrency(money);
         return new Money(value.subtract(money.value).setScale(SCALE), currency);
     }
 
     public Money multiply(double factor) {
-        BigDecimal factorDecimal = toBigDecimal(factor);
-        return new Money(value.multiply(factorDecimal).setScale(SCALE), currency);
+        return new Money(value.multiply(toBigDecimal(factor)).setScale(SCALE), currency);
     }
 
     public Money divide(double multiplicand) {
-        BigDecimal divided = toBigDecimal(multiplicand);
-        return new Money(value.divide(divided, SCALE, BigDecimal.ROUND_DOWN), currency);
+        return new Money(value.divide(toBigDecimal(multiplicand), SCALE, BigDecimal.ROUND_DOWN), currency);
+    }
+
+    private void throwExceptionIfNotSameCurrency(Money money) {
+        if (money.currency != this.currency) {
+            throw new NotSameCurrencyException("Don't support different currency.");
+        }
     }
 
     private BigDecimal toBigDecimal(double factor) {
