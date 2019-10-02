@@ -4,9 +4,13 @@ import top.dddclub.payroll.payrollcontext.domain.Currency;
 import top.dddclub.payroll.payrollcontext.domain.Money;
 import top.dddclub.payroll.payrollcontext.domain.hourlyemployee.TimeCard;
 import top.dddclub.payroll.payrollcontext.domain.hourlyemployee.HourlyEmployee;
+import top.dddclub.payroll.payrollcontext.domain.salariedemployee.Absence;
+import top.dddclub.payroll.payrollcontext.domain.salariedemployee.LeaveReason;
+import top.dddclub.payroll.payrollcontext.domain.salariedemployee.SalariedEmployee;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EmployeeFixture {
@@ -35,5 +39,27 @@ public class EmployeeFixture {
         timeCards.add(timeCard4);
         timeCards.add(timeCard5);
         return timeCards;
+    }
+
+    public static SalariedEmployee salariedEmployeeOf(String employeeId) {
+        Money salaryOfMonth = Money.of(10000.00);
+        return new SalariedEmployee(employeeId, salaryOfMonth);
+    }
+
+    public static SalariedEmployee salariedEmployeeWithOneSickLeaveOf(String employeeId) {
+        Absence sickLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.SickLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, sickLeave);
+    }
+
+    public static SalariedEmployee salariedEmployeeWithOneCasualLeaveOf(String employeeId) {
+        Absence casualLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.CasualLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, casualLeave);
+    }
+
+    private static SalariedEmployee createSalariedEmployeeWithAbsences(String employeeId, Absence... leaves) {
+        List<Absence> absences = new ArrayList<>(Arrays.asList(leaves));
+        Money salaryOfMonth = Money.of(10000.00);
+
+        return new SalariedEmployee(employeeId, salaryOfMonth, absences);
     }
 }

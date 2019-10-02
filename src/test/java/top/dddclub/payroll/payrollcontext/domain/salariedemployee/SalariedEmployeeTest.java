@@ -6,10 +6,9 @@ import top.dddclub.payroll.payrollcontext.domain.Payroll;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static top.dddclub.payroll.fixture.EmployeeFixture.*;
 
 public class SalariedEmployeeTest {
     private final Period settlementPeriod = new Period(2019, 9);
@@ -19,7 +18,7 @@ public class SalariedEmployeeTest {
     @Test
     public void should_return_monthly_salary_if_employee_without_absence() {
         //given
-        SalariedEmployee salariedEmployee = new SalariedEmployee(employeeId, salaryOfMonth);
+        SalariedEmployee salariedEmployee = salariedEmployeeOf(employeeId);
 
         //when
         Payroll payroll = salariedEmployee.payroll(settlementPeriod);
@@ -35,22 +34,35 @@ public class SalariedEmployeeTest {
     @Test
     public void should_deduct_salary_if_employee_ask_one_day_sick_leave() {
         //given
-        Absence sickLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.SickLeave);
-        List<Absence> absences = new ArrayList<>();
-        absences.add(sickLeave);
-
-        SalariedEmployee salariedEmployee = new SalariedEmployee(employeeId, salaryOfMonth, absences);
+        SalariedEmployee salariedEmployee = salariedEmployeeWithOneSickLeaveOf(employeeId);
 
         //when
         Payroll payroll = salariedEmployee.payroll(settlementPeriod);
 
         //then
-        Money payrollAmount = Money.of(9772.73);
+        Money expectedAmount = Money.of(9772.73);
         assertPayroll(payroll,
                 employeeId,
                 LocalDate.of(2019, 9, 1),
                 LocalDate.of(2019, 9, 30),
-                payrollAmount);
+                expectedAmount);
+    }
+
+    @Test
+    public void should_deduct_salary_if_employee_ask_one_day_casual_leave() {
+        //given
+        SalariedEmployee salariedEmployee = salariedEmployeeWithOneCasualLeaveOf(employeeId);
+
+        //when
+        Payroll payroll = salariedEmployee.payroll(settlementPeriod);
+
+        //then
+        Money expectedAmount = Money.of(9772.73);
+        assertPayroll(payroll,
+                employeeId,
+                LocalDate.of(2019, 9, 1),
+                LocalDate.of(2019, 9, 30),
+                expectedAmount);
     }
 
     private void assertPayroll(Payroll payroll, String employeeId, LocalDate beginDate, LocalDate endDate, Money payrollAmount) {
