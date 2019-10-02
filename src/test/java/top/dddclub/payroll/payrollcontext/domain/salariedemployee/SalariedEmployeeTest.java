@@ -11,7 +11,7 @@ import java.time.YearMonth;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SalariedEmployeeTest {
-    private final Period settlementPeriod = new Period(YearMonth.of(2019, 9));
+    private final Period settlementPeriod = new Period(2019, 9);
     private final String employeeId = "emp200901011111";
     private Money salaryOfMonth = Money.of(10000.00);
 
@@ -27,7 +27,7 @@ public class SalariedEmployeeTest {
         assertThat(payroll).isNotNull();
         assertThat(payroll.employeId()).isEqualTo(employeeId);
         assertThat(payroll.beginDate()).isEqualTo(LocalDate.of(2019, 9, 1));
-        assertThat(payroll.beginDate()).isEqualTo(LocalDate.of(2019, 9, 30));
+        assertThat(payroll.endDate()).isEqualTo(LocalDate.of(2019, 9, 30));
         assertThat(payroll.amount()).isEqualTo(salaryOfMonth);
     }
 }

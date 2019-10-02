@@ -12,7 +12,22 @@ public class Period {
         this.endDate = endDate;
     }
 
-    public Period(YearMonth month) {
+    public Period(YearMonth yearMonth) {
+        int year = yearMonth.getYear();
+        int month = yearMonth.getMonthValue();
+        int firstDay = 1;
+        int lastDay = yearMonth.lengthOfMonth();
+
+        this.beginDate = LocalDate.of(year, month, firstDay);
+        this.endDate = LocalDate.of(year, month, lastDay);
+    }
+
+    public Period(int year, int month) {
+        int firstDay = 1;
+        int lastDay = YearMonth.of(year, month).lengthOfMonth();
+
+        this.beginDate = LocalDate.of(year, month, firstDay);
+        this.endDate = LocalDate.of(year, month, lastDay);
     }
 
     public LocalDate beginDate() {
