@@ -4,6 +4,6 @@ import top.dddclub.payroll.payrollcontext.domain.Period;
 
 import java.util.List;
 
-interface HourlyEmployeeRepository {
+public interface HourlyEmployeeRepository {
     List<HourlyEmployee> allEmployeesOf(Period settlementPeriod);
 }
