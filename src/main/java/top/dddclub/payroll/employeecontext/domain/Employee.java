@@ -4,6 +4,7 @@ import top.dddclub.payroll.core.domain.AbstractEntity;
 import top.dddclub.payroll.core.domain.AggregateRoot;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="employees")
@@ -28,6 +29,8 @@ public class Employee extends AbstractEntity<EmployeeId> implements AggregateRoo
 
     @Embedded
     private Contact contact;
+
+    private LocalDate boardingDate;
 
     @Override
     public EmployeeId id() {
@@ -68,6 +71,10 @@ public class Employee extends AbstractEntity<EmployeeId> implements AggregateRoo
 
     public Contact contact() {
         return contact;
+    }
+
+    public LocalDate boardingDate() {
+        return boardingDate;
     }
 
     @Override
