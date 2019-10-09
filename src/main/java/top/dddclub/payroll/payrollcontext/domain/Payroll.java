@@ -1,21 +1,23 @@
 package top.dddclub.payroll.payrollcontext.domain;
 
+import top.dddclub.payroll.employeecontext.domain.EmployeeId;
+
 import java.time.LocalDate;
 
 public class Payroll {
-    private String employeeId;
+    private EmployeeId employeeId;
     private LocalDate beginDate;
     private LocalDate endDate;
     private Money amount;
 
-    public Payroll(String employeeId, LocalDate beginDate, LocalDate endDate, Money amount) {
+    public Payroll(EmployeeId employeeId, LocalDate beginDate, LocalDate endDate, Money amount) {
         this.employeeId = employeeId;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.amount = amount;
     }
 
-    public String employeId() {
+    public EmployeeId employeId() {
         return this.employeeId;
     }
 

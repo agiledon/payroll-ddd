@@ -7,7 +7,10 @@
 
     <persistence-unit name="PAYROLL_JPA" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
         <class>top.dddclub.payroll.employeecontext.domain.Employee</class>
+        <class>top.dddclub.payroll.payrollcontext.domain.hourlyemployee.HourlyEmployee</class>
+        <class>top.dddclub.payroll.payrollcontext.domain.hourlyemployee.TimeCard</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>

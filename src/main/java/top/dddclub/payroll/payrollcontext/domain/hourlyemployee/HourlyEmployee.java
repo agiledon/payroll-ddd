@@ -1,27 +1,51 @@
 package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
+import top.dddclub.payroll.core.domain.AbstractEntity;
+import top.dddclub.payroll.core.domain.AggregateRoot;
+import top.dddclub.payroll.employeecontext.domain.EmployeeId;
 import top.dddclub.payroll.payrollcontext.domain.Money;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class HourlyEmployee {
+@Entity
+@Table(name="employees")
+public class HourlyEmployee extends AbstractEntity<EmployeeId> implements AggregateRoot<HourlyEmployee> {
     private static final double OVERTIME_FACTOR = 1.5;
-    private String employeeId;
-    private Money salaryOfHour;
-    private List<TimeCard> timeCards;
 
-    public HourlyEmployee(String employeeId, Money salaryOfHour) {
+    @EmbeddedId
+    private EmployeeId employeeId;
+
+    @Embedded
+    private Money salaryOfHour;
+
+    @OneToMany
+    @JoinColumn(name = "employeeId", nullable = false)
+    private List<TimeCard> timeCards = new ArrayList<>();
+
+    public HourlyEmployee() {
+    }
+
+    public HourlyEmployee(EmployeeId employeeId, Money salaryOfHour) {
         this(employeeId, salaryOfHour, new ArrayList<>());
     }
 
-    public HourlyEmployee(String employeeId, Money salaryOfHour, List<TimeCard> timeCards) {
+    public HourlyEmployee(EmployeeId employeeId, Money salaryOfHour, List<TimeCard> timeCards) {
         this.employeeId = employeeId;
         this.salaryOfHour = salaryOfHour;
         this.timeCards = timeCards;
+    }
+
+    public Money salaryOfHour() {
+        return this.salaryOfHour;
+    }
+
+    public List<TimeCard> timeCards() {
+        return this.timeCards;
     }
 
     public Payroll payroll(Period period) {
@@ -50,5 +74,15 @@ public class HourlyEmployee {
                 .reduce(0, Integer::sum);
 
         return salaryOfHour.multiply(OVERTIME_FACTOR).multiply(overtimeHours);
+    }
+
+    @Override
+    public EmployeeId id() {
+        return this.employeeId;
+    }
+
+    @Override
+    public HourlyEmployee root() {
+        return this;
     }
 }

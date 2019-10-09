@@ -118,7 +118,7 @@ public class SalariedEmployeeTest {
 
     private void assertPayroll(Payroll payroll, String employeeId, LocalDate beginDate, LocalDate endDate, Money payrollAmount) {
         assertThat(payroll).isNotNull();
-        assertThat(payroll.employeId()).isEqualTo(employeeId);
+        assertThat(payroll.employeId().value()).isEqualTo(employeeId);
         assertThat(payroll.beginDate()).isEqualTo(beginDate);
         assertThat(payroll.endDate()).isEqualTo(endDate);
         assertThat(payroll.amount()).isEqualTo(payrollAmount);

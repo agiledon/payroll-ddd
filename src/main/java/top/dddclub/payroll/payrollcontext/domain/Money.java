@@ -2,13 +2,26 @@ package top.dddclub.payroll.payrollcontext.domain;
 
 import top.dddclub.payroll.payrollcontext.domain.exceptions.NotSameCurrencyException;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Embeddable
 public class Money {
     private static final int SCALE = 2;
-    private final BigDecimal value;
-    private final Currency currency;
+
+    @Column(name = "salary")
+    private BigDecimal value;
+
+    @Column(name = "currency")
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
+    public Money() {
+    }
 
     public static Money of(double value) {
         return new Money(value, Currency.RMB);

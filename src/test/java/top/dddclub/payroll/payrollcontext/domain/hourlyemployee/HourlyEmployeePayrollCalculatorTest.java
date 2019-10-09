@@ -98,7 +98,7 @@ public class HourlyEmployeePayrollCalculatorTest {
 
     private void assertPayroll(String employeeId, List<Payroll> payrolls, int index, Period settlementPeriod, double payrollAmount) {
         Payroll payroll = payrolls.get(index);
-        assertThat(payroll.employeId()).isEqualTo(employeeId);
+        assertThat(payroll.employeId().value()).isEqualTo(employeeId);
         assertThat(payroll.beginDate()).isEqualTo(settlementPeriod.beginDate());
         assertThat(payroll.endDate()).isEqualTo(settlementPeriod.endDate());
         assertThat(payroll.amount()).isEqualTo(Money.of(payrollAmount));

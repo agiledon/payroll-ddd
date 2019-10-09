@@ -1,5 +1,6 @@
 package top.dddclub.payroll.fixture;
 
+import top.dddclub.payroll.employeecontext.domain.EmployeeId;
 import top.dddclub.payroll.payrollcontext.domain.Currency;
 import top.dddclub.payroll.payrollcontext.domain.Money;
 import top.dddclub.payroll.payrollcontext.domain.hourlyemployee.TimeCard;
@@ -16,13 +17,13 @@ import java.util.List;
 public class EmployeeFixture {
     public static HourlyEmployee hourlyEmployeeOf(String employeeId, List<TimeCard> timeCards) {
         Money salaryOfHour = Money.of(100.00, Currency.RMB);
-        return new HourlyEmployee(employeeId, salaryOfHour, timeCards);
+        return new HourlyEmployee(EmployeeId.of(employeeId), salaryOfHour, timeCards);
     }
 
     public static HourlyEmployee hourlyEmployeeOf(String employeeId, int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
         Money salaryOfHour = Money.of(100.00, Currency.RMB);
         List<TimeCard> timeCards = createTimeCards(workHours1, workHours2, workHours3, workHours4, workHours5);
-        return new HourlyEmployee(employeeId, salaryOfHour, timeCards);
+        return new HourlyEmployee(EmployeeId.of(employeeId), salaryOfHour, timeCards);
     }
 
     private static List<TimeCard> createTimeCards(int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
@@ -43,7 +44,7 @@ public class EmployeeFixture {
 
     public static SalariedEmployee salariedEmployeeOf(String employeeId) {
         Money salaryOfMonth = Money.of(10000.00);
-        return new SalariedEmployee(employeeId, salaryOfMonth);
+        return new SalariedEmployee(EmployeeId.of(employeeId), salaryOfMonth);
     }
 
     public static SalariedEmployee salariedEmployeeWithOneSickLeaveOf(String employeeId) {
@@ -79,6 +80,6 @@ public class EmployeeFixture {
         List<Absence> absences = new ArrayList<>(Arrays.asList(leaves));
         Money salaryOfMonth = Money.of(10000.00);
 
-        return new SalariedEmployee(employeeId, salaryOfMonth, absences);
+        return new SalariedEmployee(EmployeeId.of(employeeId), salaryOfMonth, absences);
     }
 }

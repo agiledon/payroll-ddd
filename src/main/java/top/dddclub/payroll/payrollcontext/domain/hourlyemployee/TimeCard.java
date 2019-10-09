@@ -1,11 +1,24 @@
 package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "timecards")
 public class TimeCard {
     private static final int MAXIMUM_REGULAR_HOURS = 8;
+
+    @Id
+    @GeneratedValue
+    private String id;
     private LocalDate workDay;
     private int workHours;
+
+    public TimeCard() {
+    }
 
     public TimeCard(LocalDate workDay, int workHours) {
         this.workDay = workDay;
