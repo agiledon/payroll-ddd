@@ -5,7 +5,11 @@ import top.dddclub.payroll.core.domain.Identity;
 import top.dddclub.payroll.core.gateway.persistence.exception.InitializeEntityManagerException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +38,21 @@ public class Repository<E extends AggregateRoot, ID extends Identity> {
         CriteriaQuery<E> query = entityManager.getCriteriaBuilder().createQuery(entityClass);
         query.select(query.from(entityClass));
         return entityManager.createQuery(query).getResultList();
+    }
+
+    public List<E> findBy(Specification<E> specification) {
+        if (specification == null) {
+            return findAll();
+        }
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
+        Root<E> root = query.from(entityClass);
+
+        Predicate predicate = specification.toPredicate(criteriaBuilder, root);
+        query.where(new Predicate[]{predicate});
+
+        TypedQuery<E> typedQuery = entityManager.createQuery(query);
+        return typedQuery.getResultList();
     }
 }
