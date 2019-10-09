@@ -2,7 +2,7 @@ package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
 import org.junit.Before;
 import org.junit.Test;
-import top.dddclub.payroll.payrollcontext.domain.Money;
+import top.dddclub.payroll.payrollcontext.domain.Salary;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
 import top.dddclub.payroll.fixture.EmployeeFixture;
@@ -101,6 +101,6 @@ public class HourlyEmployeePayrollCalculatorTest {
         assertThat(payroll.employeId().value()).isEqualTo(employeeId);
         assertThat(payroll.beginDate()).isEqualTo(settlementPeriod.beginDate());
         assertThat(payroll.endDate()).isEqualTo(settlementPeriod.endDate());
-        assertThat(payroll.amount()).isEqualTo(Money.of(payrollAmount));
+        assertThat(payroll.amount()).isEqualTo(Salary.of(payrollAmount));
     }
 }

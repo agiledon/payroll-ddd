@@ -2,7 +2,7 @@ package top.dddclub.payroll.fixture;
 
 import top.dddclub.payroll.employeecontext.domain.EmployeeId;
 import top.dddclub.payroll.payrollcontext.domain.Currency;
-import top.dddclub.payroll.payrollcontext.domain.Money;
+import top.dddclub.payroll.payrollcontext.domain.Salary;
 import top.dddclub.payroll.payrollcontext.domain.hourlyemployee.TimeCard;
 import top.dddclub.payroll.payrollcontext.domain.hourlyemployee.HourlyEmployee;
 import top.dddclub.payroll.payrollcontext.domain.salariedemployee.Absence;
@@ -16,12 +16,12 @@ import java.util.List;
 
 public class EmployeeFixture {
     public static HourlyEmployee hourlyEmployeeOf(String employeeId, List<TimeCard> timeCards) {
-        Money salaryOfHour = Money.of(100.00, Currency.RMB);
+        Salary salaryOfHour = Salary.of(100.00, Currency.RMB);
         return new HourlyEmployee(EmployeeId.of(employeeId), salaryOfHour, timeCards);
     }
 
     public static HourlyEmployee hourlyEmployeeOf(String employeeId, int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
-        Money salaryOfHour = Money.of(100.00, Currency.RMB);
+        Salary salaryOfHour = Salary.of(100.00, Currency.RMB);
         List<TimeCard> timeCards = createTimeCards(workHours1, workHours2, workHours3, workHours4, workHours5);
         return new HourlyEmployee(EmployeeId.of(employeeId), salaryOfHour, timeCards);
     }
@@ -43,43 +43,47 @@ public class EmployeeFixture {
     }
 
     public static SalariedEmployee salariedEmployeeOf(String employeeId) {
-        Money salaryOfMonth = Money.of(10000.00);
+        Salary salaryOfMonth = Salary.of(10000.00);
         return new SalariedEmployee(EmployeeId.of(employeeId), salaryOfMonth);
     }
 
     public static SalariedEmployee salariedEmployeeWithOneSickLeaveOf(String employeeId) {
-        Absence sickLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.SickLeave);
+        Absence sickLeave = createAbsence(2, LeaveReason.SickLeave);
         return createSalariedEmployeeWithAbsences(employeeId, sickLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithOneCasualLeaveOf(String employeeId) {
-        Absence casualLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.CasualLeave);
+        Absence casualLeave = createAbsence(2, LeaveReason.CasualLeave);
         return createSalariedEmployeeWithAbsences(employeeId, casualLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithOnePaidLeaveOf(String employeeId) {
-        Absence paidLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.MaternityLeave);
+        Absence paidLeave = createAbsence(2, LeaveReason.MaternityLeave);
         return createSalariedEmployeeWithAbsences(employeeId, paidLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithOneDisapprovedLeaveOf(String employeeId) {
-        Absence disapprovedLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.DisapprovedLeave);
+        Absence disapprovedLeave = createAbsence(2, LeaveReason.DisapprovedLeave);
         return createSalariedEmployeeWithAbsences(employeeId, disapprovedLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithManyLeavesOf(String employeeId) {
-        Absence sickLeave = new Absence(employeeId, LocalDate.of(2019, 9, 2), LeaveReason.SickLeave);
-        Absence casualLeave = new Absence(employeeId, LocalDate.of(2019, 9, 3), LeaveReason.CasualLeave);
-        Absence paidLeave = new Absence(employeeId, LocalDate.of(2019, 9, 4), LeaveReason.MaternityLeave);
-        Absence disapprovedLeave = new Absence(employeeId, LocalDate.of(2019, 9, 5), LeaveReason.DisapprovedLeave);
+        Absence sickLeave = createAbsence(2, LeaveReason.SickLeave);
+        Absence casualLeave = createAbsence(3, LeaveReason.CasualLeave);
+        Absence paidLeave = createAbsence(4, LeaveReason.MaternityLeave);
+        Absence disapprovedLeave = createAbsence(5, LeaveReason.DisapprovedLeave);
 
         return createSalariedEmployeeWithAbsences(employeeId, sickLeave, casualLeave, paidLeave, disapprovedLeave);
     }
 
     private static SalariedEmployee createSalariedEmployeeWithAbsences(String employeeId, Absence... leaves) {
         List<Absence> absences = new ArrayList<>(Arrays.asList(leaves));
-        Money salaryOfMonth = Money.of(10000.00);
+        Salary salaryOfMonth = Salary.of(10000.00);
 
         return new SalariedEmployee(EmployeeId.of(employeeId), salaryOfMonth, absences);
+    }
+
+    private static Absence createAbsence(int dayOfMonth, LeaveReason leaveReason) {
+        return new Absence(LocalDate.of(2019, 9, dayOfMonth), leaveReason);
     }
 }

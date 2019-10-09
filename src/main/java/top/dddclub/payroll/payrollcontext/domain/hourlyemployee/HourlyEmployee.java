@@ -3,7 +3,7 @@ package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 import top.dddclub.payroll.core.domain.AbstractEntity;
 import top.dddclub.payroll.core.domain.AggregateRoot;
 import top.dddclub.payroll.employeecontext.domain.EmployeeId;
-import top.dddclub.payroll.payrollcontext.domain.Money;
+import top.dddclub.payroll.payrollcontext.domain.Salary;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
 
@@ -21,7 +21,7 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
     private EmployeeId employeeId;
 
     @Embedded
-    private Money salaryOfHour;
+    private Salary salaryOfHour;
 
     @OneToMany
     @JoinColumn(name = "employeeId", nullable = false)
@@ -30,17 +30,17 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
     public HourlyEmployee() {
     }
 
-    public HourlyEmployee(EmployeeId employeeId, Money salaryOfHour) {
+    public HourlyEmployee(EmployeeId employeeId, Salary salaryOfHour) {
         this(employeeId, salaryOfHour, new ArrayList<>());
     }
 
-    public HourlyEmployee(EmployeeId employeeId, Money salaryOfHour, List<TimeCard> timeCards) {
+    public HourlyEmployee(EmployeeId employeeId, Salary salaryOfHour, List<TimeCard> timeCards) {
         this.employeeId = employeeId;
         this.salaryOfHour = salaryOfHour;
         this.timeCards = timeCards;
     }
 
-    public Money salaryOfHour() {
+    public Salary salaryOfHour() {
         return this.salaryOfHour;
     }
 
@@ -50,24 +50,24 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
 
     public Payroll payroll(Period period) {
         if (Objects.isNull(timeCards) || timeCards.isEmpty()) {
-            return new Payroll(this.employeeId, period.beginDate(), period.endDate(), Money.zero());
+            return new Payroll(this.employeeId, period.beginDate(), period.endDate(), Salary.zero());
         }
 
-        Money regularSalary = calculateRegularSalary();
-        Money overtimeSalary = calculateOvertimeSalary();
-        Money totalSalary = regularSalary.add(overtimeSalary);
+        Salary regularSalary = calculateRegularSalary();
+        Salary overtimeSalary = calculateOvertimeSalary();
+        Salary totalSalary = regularSalary.add(overtimeSalary);
 
         return new Payroll(this.employeeId, period.beginDate(), period.endDate(), totalSalary);
     }
 
-    private Money calculateRegularSalary() {
+    private Salary calculateRegularSalary() {
         int regularHours = timeCards.stream()
                 .map(TimeCard::getRegularWorkHours)
                 .reduce(0, Integer::sum);
         return salaryOfHour.multiply(regularHours);
     }
 
-    private Money calculateOvertimeSalary() {
+    private Salary calculateOvertimeSalary() {
         int overtimeHours = timeCards.stream()
                 .filter(TimeCard::isOvertime)
                 .map(TimeCard::getOvertimeWorkHours)

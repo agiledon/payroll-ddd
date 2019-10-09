@@ -8,9 +8,9 @@ public class Payroll {
     private EmployeeId employeeId;
     private LocalDate beginDate;
     private LocalDate endDate;
-    private Money amount;
+    private Salary amount;
 
-    public Payroll(EmployeeId employeeId, LocalDate beginDate, LocalDate endDate, Money amount) {
+    public Payroll(EmployeeId employeeId, LocalDate beginDate, LocalDate endDate, Salary amount) {
         this.employeeId = employeeId;
         this.beginDate = beginDate;
         this.endDate = endDate;
@@ -29,7 +29,7 @@ public class Payroll {
         return this.endDate;
     }
 
-    public Money amount() {
+    public Salary amount() {
         return this.amount;
     }
 }

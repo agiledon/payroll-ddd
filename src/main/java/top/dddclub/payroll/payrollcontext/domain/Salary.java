@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Embeddable
-public class Money {
+public class Salary {
     private static final int SCALE = 2;
 
     @Column(name = "salary")
@@ -20,23 +20,23 @@ public class Money {
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
-    public Money() {
+    public Salary() {
     }
 
-    public static Money of(double value) {
-        return new Money(value, Currency.RMB);
+    public static Salary of(double value) {
+        return new Salary(value, Currency.RMB);
     }
 
-    public static Money of(double value, Currency currency) {
-        return new Money(value, currency);
+    public static Salary of(double value, Currency currency) {
+        return new Salary(value, currency);
     }
 
-    private Money(double value, Currency currency) {
+    private Salary(double value, Currency currency) {
         this.value = toBigDecimal(value).setScale(SCALE);
         this.currency = currency;
     }
 
-    private Money(BigDecimal value, Currency currency) {
+    private Salary(BigDecimal value, Currency currency) {
         this.value = value;
         this.currency = currency;
     }
@@ -45,34 +45,34 @@ public class Money {
         return this.currency;
     }
 
-    public static Money zero() {
+    public static Salary zero() {
         return zero(Currency.RMB);
     }
 
-    public static Money zero(Currency currency) {
-        return new Money(0d, currency);
+    public static Salary zero(Currency currency) {
+        return new Salary(0d, currency);
     }
 
-    public Money add(Money money) {
-        throwExceptionIfNotSameCurrency(money);
-        return new Money(value.add(money.value).setScale(SCALE), currency);
+    public Salary add(Salary salary) {
+        throwExceptionIfNotSameCurrency(salary);
+        return new Salary(value.add(salary.value).setScale(SCALE), currency);
     }
 
-    public Money subtract(Money money) {
-        throwExceptionIfNotSameCurrency(money);
-        return new Money(value.subtract(money.value).setScale(SCALE), currency);
+    public Salary subtract(Salary salary) {
+        throwExceptionIfNotSameCurrency(salary);
+        return new Salary(value.subtract(salary.value).setScale(SCALE), currency);
     }
 
-    public Money multiply(double factor) {
-        return new Money(value.multiply(toBigDecimal(factor)).setScale(SCALE), currency);
+    public Salary multiply(double factor) {
+        return new Salary(value.multiply(toBigDecimal(factor)).setScale(SCALE), currency);
     }
 
-    public Money divide(double multiplicand) {
-        return new Money(value.divide(toBigDecimal(multiplicand), SCALE, BigDecimal.ROUND_DOWN), currency);
+    public Salary divide(double multiplicand) {
+        return new Salary(value.divide(toBigDecimal(multiplicand), SCALE, BigDecimal.ROUND_DOWN), currency);
     }
 
-    private void throwExceptionIfNotSameCurrency(Money money) {
-        if (money.currency != this.currency) {
+    private void throwExceptionIfNotSameCurrency(Salary salary) {
+        if (salary.currency != this.currency) {
             throw new NotSameCurrencyException("Don't support different currency.");
         }
     }
@@ -85,9 +85,9 @@ public class Money {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Money money = (Money) o;
-        return Objects.equals(value, money.value) &&
-                currency == money.currency;
+        Salary salary = (Salary) o;
+        return Objects.equals(value, salary.value) &&
+                currency == salary.currency;
     }
 
     @Override
