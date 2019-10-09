@@ -5,6 +5,8 @@ import top.dddclub.payroll.core.domain.Identity;
 import top.dddclub.payroll.core.gateway.persistence.exception.InitializeEntityManagerException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import java.util.Optional;
 
 public class Repository<E extends AggregateRoot, ID extends Identity> {
@@ -26,6 +28,11 @@ public class Repository<E extends AggregateRoot, ID extends Identity> {
             return Optional.empty();
         }
         return Optional.of(root);
+    }
 
+    public List<E> findAll() {
+        CriteriaQuery<E> query = entityManager.getCriteriaBuilder().createQuery(entityClass);
+        query.select(query.from(entityClass));
+        return entityManager.createQuery(query).getResultList();
     }
 }
