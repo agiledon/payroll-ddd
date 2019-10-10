@@ -140,7 +140,7 @@ public class RepositoryIT {
     public void should_get_all_entities_by_employee_type() {
         Repository<Employee, EmployeeId> repository = createEmployeeRepository();
 
-        List<Employee> hourlyEmployees = repository.findBy((builder, root) ->
+        List<Employee> hourlyEmployees = repository.findBy((builder, query, root) ->
                 builder.equal(root.get("employeeType"), EmployeeType.Hourly)
         );
 

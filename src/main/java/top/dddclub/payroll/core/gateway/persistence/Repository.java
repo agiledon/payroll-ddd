@@ -6,10 +6,7 @@ import top.dddclub.payroll.core.gateway.persistence.exception.InitializeEntityMa
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +46,7 @@ public class Repository<E extends AggregateRoot, ID extends Identity> {
         CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
         Root<E> root = query.from(entityClass);
 
-        Predicate predicate = specification.toPredicate(criteriaBuilder, root);
+        Predicate predicate = specification.toPredicate(criteriaBuilder, query, root);
         query.where(new Predicate[]{predicate});
 
         TypedQuery<E> typedQuery = entityManager.createQuery(query);

@@ -13,8 +13,8 @@ insert into timecards (employeeId, workDay, workHours) values ('emp2001091010000
 insert into timecards (employeeId, workDay, workHours) values ('emp200109101000001', '2019-09-04', 10);
 insert into timecards (employeeId, workDay, workHours) values ('emp200109101000001', '2019-09-05', 9);
 insert into timecards (employeeId, workDay, workHours) values ('emp200109101000001', '2019-09-06', 7);
-insert into timecards (employeeId, workDay, workHours) values ('emp200109101000002', '2019-09-02', 8);
-insert into timecards (employeeId, workDay, workHours) values ('emp200109101000002', '2019-09-03', 10);
-insert into timecards (employeeId, workDay, workHours) values ('emp200109101000002', '2019-09-04', 5);
-insert into timecards (employeeId, workDay, workHours) values ('emp200109101000002', '2019-09-05', 9);
-insert into timecards (employeeId, workDay, workHours) values ('emp200109101000002', '2019-09-06', 7);
+insert into timecards (employeeId, workDay, workHours) values ('emp201107101000002', '2019-09-02', 8);
+insert into timecards (employeeId, workDay, workHours) values ('emp201107101000002', '2019-09-03', 10);
+insert into timecards (employeeId, workDay, workHours) values ('emp201107101000002', '2019-09-04', 5);
+insert into timecards (employeeId, workDay, workHours) values ('emp201107101000002', '2019-09-05', 9);
+insert into timecards (employeeId, workDay, workHours) values ('emp201107101000002', '2019-09-06', 7);
