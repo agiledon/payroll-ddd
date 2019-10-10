@@ -101,7 +101,7 @@ public class RepositoryIT {
     }
 
     @Test
-    public void should_get_all_entities() {
+    public void should_get_all_employees() {
         //given
         Repository<Employee, EmployeeId> repository = createEmployeeRepository();
 
@@ -113,7 +113,31 @@ public class RepositoryIT {
     }
 
     @Test
-    public void should_get_all_entities_by_criteria() {
+    public void should_get_all_hourly_employees() {
+        //given
+        Repository<HourlyEmployee, EmployeeId> repository = createHourlyEmployeeRepository();
+
+        //when
+        List<HourlyEmployee> employees = repository.findAll();
+
+        //then
+        assertThat(employees).isNotNull().hasSize(2);
+    }
+
+    @Test
+    public void should_get_all_salaried_employees() {
+        //given
+        Repository<SalariedEmployee, EmployeeId> repository = createSalariedEmployeeRepository();
+
+        //when
+        List<SalariedEmployee> employees = repository.findAll();
+
+        //then
+        assertThat(employees).isNotNull().hasSize(1);
+    }
+
+    @Test
+    public void should_get_all_entities_by_employee_type() {
         Repository<Employee, EmployeeId> repository = createEmployeeRepository();
 
         List<Employee> hourlyEmployees = repository.findBy((builder, root) ->

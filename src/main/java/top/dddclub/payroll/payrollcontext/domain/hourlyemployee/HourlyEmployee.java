@@ -1,11 +1,12 @@
 package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
+import org.hibernate.annotations.DiscriminatorOptions;
 import top.dddclub.payroll.core.domain.AbstractEntity;
 import top.dddclub.payroll.core.domain.AggregateRoot;
 import top.dddclub.payroll.employeecontext.domain.EmployeeId;
-import top.dddclub.payroll.payrollcontext.domain.Salary;
-import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
+import top.dddclub.payroll.payrollcontext.domain.Period;
+import top.dddclub.payroll.payrollcontext.domain.Salary;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +14,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="employees")
+@Table(name = "employees")
+@DiscriminatorColumn(name = "employeeType", discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorOptions(force=true)
+@DiscriminatorValue(value = "0")
 public class HourlyEmployee extends AbstractEntity<EmployeeId> implements AggregateRoot<HourlyEmployee> {
     private static final double OVERTIME_FACTOR = 1.5;
 
