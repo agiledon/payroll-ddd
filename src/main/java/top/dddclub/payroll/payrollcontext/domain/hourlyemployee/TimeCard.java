@@ -1,5 +1,7 @@
 package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
+import top.dddclub.payroll.payrollcontext.domain.Period;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -28,6 +30,10 @@ public class TimeCard {
 
     public LocalDate workDay() {
         return this.workDay;
+    }
+
+    public boolean isIn(Period period) {
+        return period.contains(workDay);
     }
 
     public boolean isOvertime() {

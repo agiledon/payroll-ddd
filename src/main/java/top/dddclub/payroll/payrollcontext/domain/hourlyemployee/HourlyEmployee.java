@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "employees")
@@ -57,27 +58,32 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
             return new Payroll(this.employeeId, period.beginDate(), period.endDate(), Salary.zero());
         }
 
-        Salary regularSalary = calculateRegularSalary();
-        Salary overtimeSalary = calculateOvertimeSalary();
+        Salary regularSalary = calculateRegularSalary(period);
+        Salary overtimeSalary = calculateOvertimeSalary(period);
         Salary totalSalary = regularSalary.add(overtimeSalary);
 
         return new Payroll(this.employeeId, period.beginDate(), period.endDate(), totalSalary);
     }
 
-    private Salary calculateRegularSalary() {
-        int regularHours = timeCards.stream()
+    private Salary calculateRegularSalary(Period period) {
+        int regularHours = filterByPeriod(period)
                 .map(TimeCard::getRegularWorkHours)
                 .reduce(0, Integer::sum);
         return salaryOfHour.multiply(regularHours);
     }
 
-    private Salary calculateOvertimeSalary() {
-        int overtimeHours = timeCards.stream()
+    private Salary calculateOvertimeSalary(Period period) {
+        int overtimeHours = filterByPeriod(period)
                 .filter(TimeCard::isOvertime)
                 .map(TimeCard::getOvertimeWorkHours)
                 .reduce(0, Integer::sum);
 
         return salaryOfHour.multiply(OVERTIME_FACTOR).multiply(overtimeHours);
+    }
+
+    private Stream<TimeCard> filterByPeriod(Period period) {
+        return timeCards.stream()
+                .filter(t -> t.isIn(period));
     }
 
     @Override

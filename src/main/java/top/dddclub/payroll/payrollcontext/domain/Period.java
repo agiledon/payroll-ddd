@@ -43,4 +43,11 @@ public class Period {
     public LocalDate endDate() {
         return endDate;
     }
+
+    public boolean contains(LocalDate date) {
+        if (date.isEqual(beginDate) || date.isEqual(endDate)) {
+            return true;
+        }
+        return date.isAfter(beginDate) && date.isBefore(endDate);
+    }
 }

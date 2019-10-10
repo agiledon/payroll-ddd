@@ -55,6 +55,7 @@ public class SalariedEmployee extends AbstractEntity<EmployeeId> implements Aggr
         Salary salaryOfDay = salaryOfMonth.divide(WORK_DAYS_OF_MONTH);
 
         Salary deduction = absences.stream()
+                .filter(a -> a.isIn(settlementPeriod))
                 .filter(a -> !a.isPaidLeave())
                 .map(a -> salaryOfDay.multiply(a.deductionRatio()))
                 .reduce(Salary.zero(salaryOfDay.currency()), (m, agg) -> agg.add(m));
