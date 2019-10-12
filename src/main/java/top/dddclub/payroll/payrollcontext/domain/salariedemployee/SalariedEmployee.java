@@ -11,6 +11,7 @@ import top.dddclub.payroll.payrollcontext.domain.Period;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="employees")
@@ -52,6 +53,10 @@ public class SalariedEmployee extends AbstractEntity<EmployeeId> implements Aggr
     }
 
     public Payroll payroll(Period settlementPeriod) {
+        if (Objects.isNull(absences) || absences.isEmpty()) {
+            return new Payroll(employeeId, settlementPeriod.beginDate(), settlementPeriod.endDate(), salaryOfMonth);
+        }
+
         Salary salaryOfDay = salaryOfMonth.divide(WORK_DAYS_OF_MONTH);
 
         Salary deduction = absences.stream()

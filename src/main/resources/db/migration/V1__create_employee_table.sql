@@ -14,7 +14,7 @@ CREATE TABLE employees(
     mobilePhone VARCHAR(20),
     homePhone VARCHAR(20),
     officePhone VARCHAR(20),
-    boardingDate DATE NOT NULL,
+    onBoardingDate DATE NOT NULL,
     createdTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedTime TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id)
