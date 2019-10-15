@@ -42,7 +42,10 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
     public HourlyEmployee(EmployeeId employeeId, Salary salaryOfHour, List<TimeCard> timeCards) {
         this.employeeId = employeeId;
         this.salaryOfHour = salaryOfHour;
-        this.timeCards = timeCards;
+
+        if (!Objects.isNull(timeCards)) {
+            this.timeCards = timeCards;
+        }
     }
 
     public Salary salaryOfHour() {
@@ -84,6 +87,10 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
     private Stream<TimeCard> filterByPeriod(Period period) {
         return timeCards.stream()
                 .filter(t -> t.isIn(period));
+    }
+
+    public void submit(List<TimeCard> timeCards) {
+        this.timeCards.addAll(timeCards);
     }
 
     @Override

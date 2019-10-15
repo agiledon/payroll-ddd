@@ -26,7 +26,7 @@ public class EmployeeFixture {
         return new HourlyEmployee(EmployeeId.of(employeeId), salaryOfHour, timeCards);
     }
 
-    private static List<TimeCard> createTimeCards(int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
+    public static List<TimeCard> createTimeCards(int workHours1, int workHours2, int workHours3, int workHours4, int workHours5) {
         TimeCard timeCard1 = new TimeCard(LocalDate.of(2019, 9, 2), workHours1);
         TimeCard timeCard2 = new TimeCard(LocalDate.of(2019, 9, 3), workHours2);
         TimeCard timeCard3 = new TimeCard(LocalDate.of(2019, 9, 4), workHours3);
