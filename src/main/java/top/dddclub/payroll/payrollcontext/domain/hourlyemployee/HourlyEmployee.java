@@ -10,6 +10,7 @@ import top.dddclub.payroll.payrollcontext.domain.Salary;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -91,9 +92,13 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
 
     public void submit(List<TimeCard> submittedTimeCards) {
         for (TimeCard card : submittedTimeCards) {
-            if (!this.timeCards.contains(card)) {
-                this.timeCards.add(card);
-            }
+            this.submit(card);
+        }
+    }
+
+    public void submit(TimeCard submittedTimeCard) {
+        if (!this.timeCards.contains(submittedTimeCard)) {
+            this.timeCards.add(submittedTimeCard);
         }
     }
 
