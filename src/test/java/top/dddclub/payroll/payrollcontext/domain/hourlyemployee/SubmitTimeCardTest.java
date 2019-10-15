@@ -22,4 +22,16 @@ public class SubmitTimeCardTest {
         assertThat(hourlyEmployee.timeCards()).hasSize(5);
     }
 
+    @Test
+    public void should_not_submit_time_card_with_same_work_day() {
+        HourlyEmployee hourlyEmployee = EmployeeFixture.hourlyEmployeeOf(employeeId, 8, 8, 8, 8, 8);
+        List<TimeCard> repeatedTimeCards = EmployeeFixture.createTimeCards(8, 8, 8, 8, 8);
+
+        assertThat(hourlyEmployee.timeCards()).hasSize(5);
+
+        hourlyEmployee.submit(repeatedTimeCards);
+
+        assertThat(hourlyEmployee.timeCards()).hasSize(5);
+    }
+
 }

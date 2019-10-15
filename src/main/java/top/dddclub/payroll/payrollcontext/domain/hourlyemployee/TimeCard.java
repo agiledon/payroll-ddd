@@ -4,6 +4,7 @@ import top.dddclub.payroll.payrollcontext.domain.Period;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "timecards")
@@ -46,5 +47,18 @@ public class TimeCard {
 
     public int getRegularWorkHours() {
         return isOvertime() ? MAXIMUM_REGULAR_HOURS : workHours();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeCard timeCard = (TimeCard) o;
+        return Objects.equals(workDay, timeCard.workDay);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(workDay);
     }
 }
