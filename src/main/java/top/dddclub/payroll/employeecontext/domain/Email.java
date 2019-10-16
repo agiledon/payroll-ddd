@@ -11,4 +11,11 @@ public class Email {
     public String value() {
         return this.value;
     }
+
+    public Email() {
+    }
+
+    public Email(String value) {
+        this.value = value;
+    }
 }

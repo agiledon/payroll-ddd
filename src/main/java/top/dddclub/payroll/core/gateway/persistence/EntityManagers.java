@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class EntityManagers {
-    static EntityManager from(String persistenceUnitName) {
+    public static EntityManager from(String persistenceUnitName) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
         return entityManagerFactory.createEntityManager();
     }

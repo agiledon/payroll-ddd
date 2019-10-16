@@ -44,8 +44,29 @@ public class EmployeeId implements Identity<String>, Serializable {
                         composeRandomNumber()));
     }
 
-    private static int composeRandomNumber() {
-        return random.nextInt(999999);
+    private static String composeRandomNumber() {
+        int length = 6;
+        String number = String.valueOf(random.nextInt(999999));
+
+        if (number.length() == length) {
+            return number;
+        }
+
+        if (number.length() < length) {
+            return appendWithZero(number, length);
+        }
+
+        return number.substring(0, length);
+    }
+
+    private static String appendWithZero(String str, int length) {
+        int numberOfZero = length - str.length();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < numberOfZero; i++) {
+            builder.append("0");
+        }
+        builder.append(str);
+        return builder.toString();
     }
 
     private static String composeTimestamp() {

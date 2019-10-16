@@ -12,8 +12,8 @@ public class TimeCard {
     private static final int MAXIMUM_REGULAR_HOURS = 8;
 
     @Id
-    @GeneratedValue
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private LocalDate workDay;
     private int workHours;
 

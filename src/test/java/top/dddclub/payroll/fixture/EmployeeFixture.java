@@ -1,6 +1,9 @@
 package top.dddclub.payroll.fixture;
 
+import top.dddclub.payroll.employeecontext.domain.Email;
+import top.dddclub.payroll.employeecontext.domain.Employee;
 import top.dddclub.payroll.employeecontext.domain.EmployeeId;
+import top.dddclub.payroll.employeecontext.domain.EmployeeType;
 import top.dddclub.payroll.payrollcontext.domain.Currency;
 import top.dddclub.payroll.payrollcontext.domain.Salary;
 import top.dddclub.payroll.payrollcontext.domain.hourlyemployee.TimeCard;
@@ -85,5 +88,9 @@ public class EmployeeFixture {
 
     private static Absence createAbsence(int dayOfMonth, LeaveReason leaveReason) {
         return new Absence(LocalDate.of(2019, 9, dayOfMonth), leaveReason);
+    }
+
+    public static Employee employeeOf(String employeeId, String name, String email, EmployeeType employeeType) {
+        return new Employee(EmployeeId.of(employeeId), name, new Email(email), employeeType, LocalDate.now());
     }
 }

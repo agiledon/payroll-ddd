@@ -4,8 +4,7 @@ import top.dddclub.payroll.core.domain.AggregateRoot;
 import top.dddclub.payroll.core.domain.Identity;
 import top.dddclub.payroll.core.gateway.persistence.exception.InitializeEntityManagerException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Optional;
@@ -13,16 +12,16 @@ import java.util.Optional;
 public class Repository<E extends AggregateRoot, ID extends Identity> {
     private Class<E> entityClass;
     private EntityManager entityManager;
+    private TransactionScope transactionScope;
 
     public Repository(Class<E> entityClass, EntityManager entityManager) {
         this.entityClass = entityClass;
         this.entityManager = entityManager;
+        this.transactionScope = new TransactionScope(entityManager);
     }
 
     public Optional<E> findById(ID id) {
-        if (entityManager == null) {
-            throw new InitializeEntityManagerException();
-        }
+        requireEntityManagerNotNull();
 
         E root = entityManager.find(entityClass, id);
         if (root == null) {
@@ -32,12 +31,16 @@ public class Repository<E extends AggregateRoot, ID extends Identity> {
     }
 
     public List<E> findAll() {
+        requireEntityManagerNotNull();
+
         CriteriaQuery<E> query = entityManager.getCriteriaBuilder().createQuery(entityClass);
         query.select(query.from(entityClass));
         return entityManager.createQuery(query).getResultList();
     }
 
     public List<E> findBy(Specification<E> specification) {
+        requireEntityManagerNotNull();
+
         if (specification == null) {
             return findAll();
         }
@@ -51,5 +54,46 @@ public class Repository<E extends AggregateRoot, ID extends Identity> {
 
         TypedQuery<E> typedQuery = entityManager.createQuery(query);
         return typedQuery.getResultList();
+    }
+
+    public void saveOrUpdate(E entity) {
+        requireEntityManagerNotNull();
+
+        if (entity == null) {
+            //todo: logging it
+            return;
+        }
+
+        transactionScope.using(em -> {
+            if (em.contains(entity)) {
+                em.merge(entity);
+            } else {
+                em.persist(entity);
+            }
+        });
+    }
+
+    public void delete(E entity) {
+        requireEntityManagerNotNull();
+
+        if (entity == null) {
+            //todo: logging it
+            return;
+        }
+        if (!entityManager.contains(entity)) {
+            return;
+        }
+
+        transactionScope.using(em -> em.remove(entity));
+    }
+
+    private void requireEntityManagerNotNull() {
+        if (entityManager == null) {
+            throw new InitializeEntityManagerException();
+        }
+    }
+
+    public void finalize() {
+        entityManager.close();
     }
 }
