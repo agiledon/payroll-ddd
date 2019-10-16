@@ -14,7 +14,7 @@ public class HourlyEmployeePayrollCalculator {
     }
 
     public List<Payroll> execute(Period settlementPeriod) {
-        List<HourlyEmployee> hourlyEmployees = employeeRepository.allEmployeesOf(settlementPeriod);
+        List<HourlyEmployee> hourlyEmployees = employeeRepository.allEmployeesOf();
         return hourlyEmployees.stream()
                 .map(e -> e.payroll(settlementPeriod))
                 .collect(Collectors.toList());

@@ -19,7 +19,7 @@ public class HourlyEmployeePayrollCalculatorTest {
 
     private Period settlementPeriod;
     private HourlyEmployeeRepository mockRepo;
-    private ArrayList<HourlyEmployee> hourlyEmployees;
+    private List<HourlyEmployee> hourlyEmployees;
     private HourlyEmployeePayrollCalculator calculator;
 
     @Before
@@ -33,7 +33,7 @@ public class HourlyEmployeePayrollCalculatorTest {
     @Test
     public void should_calculate_payroll_when_no_matched_employee_found() {
         //given
-        when(mockRepo.allEmployeesOf(settlementPeriod)).thenReturn(new ArrayList<>());
+        when(mockRepo.allEmployeesOf()).thenReturn(new ArrayList<>());
 
         HourlyEmployeePayrollCalculator calculator = new HourlyEmployeePayrollCalculator();
         calculator.setRepository(mockRepo);
@@ -42,7 +42,7 @@ public class HourlyEmployeePayrollCalculatorTest {
         List<Payroll> payrolls = calculator.execute(settlementPeriod);
 
         //then
-        verify(mockRepo, times(1)).allEmployeesOf(settlementPeriod);
+        verify(mockRepo, times(1)).allEmployeesOf();
         assertThat(payrolls).isNotNull().isEmpty();
     }
 
@@ -53,14 +53,14 @@ public class HourlyEmployeePayrollCalculatorTest {
         HourlyEmployee hourlyEmployee = hourlyEmployeeOf(employeeId, 8, 8, 8, 8, 8);
         hourlyEmployees.add(hourlyEmployee);
 
-        when(mockRepo.allEmployeesOf(settlementPeriod)).thenReturn(hourlyEmployees);
+        when(mockRepo.allEmployeesOf()).thenReturn(hourlyEmployees);
         calculator.setRepository(mockRepo);
 
         //when
         List<Payroll> payrolls = calculator.execute(settlementPeriod);
 
         //then
-        verify(mockRepo, times(1)).allEmployeesOf(settlementPeriod);
+        verify(mockRepo, times(1)).allEmployeesOf();
 
         assertThat(payrolls).isNotNull().hasSize(1);
         assertPayroll(employeeId, payrolls, 0, settlementPeriod, 4000.00);
@@ -81,14 +81,14 @@ public class HourlyEmployeePayrollCalculatorTest {
         HourlyEmployee hourlyEmployee3 = EmployeeFixture.hourlyEmployeeOf(employeeId3, null);
         hourlyEmployees.add(hourlyEmployee3);
 
-        when(mockRepo.allEmployeesOf(settlementPeriod)).thenReturn(hourlyEmployees);
+        when(mockRepo.allEmployeesOf()).thenReturn(hourlyEmployees);
         calculator.setRepository(mockRepo);
 
         //when
         List<Payroll> payrolls = calculator.execute(settlementPeriod);
 
         //then
-        verify(mockRepo, times(1)).allEmployeesOf(settlementPeriod);
+        verify(mockRepo, times(1)).allEmployeesOf();
 
         assertThat(payrolls).isNotNull().hasSize(3);
         assertPayroll(employeeId1, payrolls, 0, settlementPeriod, 4000.00);
