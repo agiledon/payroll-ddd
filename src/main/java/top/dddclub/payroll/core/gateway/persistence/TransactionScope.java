@@ -17,7 +17,6 @@ public class TransactionScope {
         try {
             transaction.begin();
             consumer.accept(entityManager);
-            entityManager.flush();
             transaction.commit();
         } catch (IllegalArgumentException | PersistenceException ex) {
             transaction.rollback();
