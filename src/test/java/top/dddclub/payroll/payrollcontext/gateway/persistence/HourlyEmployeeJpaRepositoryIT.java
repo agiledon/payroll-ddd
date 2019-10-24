@@ -26,7 +26,7 @@ public class HourlyEmployeeJpaRepositoryIT {
     }
 
     @Test
-    public void should_submit_timecard_then_remove_it() {
+    public void should_submit_time_card_then_remove_it() {
         EmployeeId employeeId = EmployeeId.of("emp200109101000001");
 
         HourlyEmployee hourlyEmployee = employeeRepo.employeeOf(employeeId).get();
