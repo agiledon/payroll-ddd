@@ -64,13 +64,11 @@ public class Repository<E extends AggregateRoot, ID extends Identity> {
             return;
         }
 
-        transactionScope.using(em -> {
-            if (em.contains(entity)) {
-                em.merge(entity);
-            } else {
-                em.persist(entity);
-            }
-        });
+        if (entityManager.contains(entity)) {
+            entityManager.merge(entity);
+        } else {
+            entityManager.persist(entity);
+        }
     }
 
     public void delete(E entity) {
@@ -84,7 +82,7 @@ public class Repository<E extends AggregateRoot, ID extends Identity> {
             return;
         }
 
-        transactionScope.using(em -> em.remove(entity));
+        entityManager.remove(entity);
     }
 
     private void requireEntityManagerNotNull() {
