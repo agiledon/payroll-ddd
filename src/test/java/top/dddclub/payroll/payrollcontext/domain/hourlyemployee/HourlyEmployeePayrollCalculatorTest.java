@@ -3,8 +3,8 @@ package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 import org.junit.Before;
 import org.junit.Test;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
+import top.dddclub.payroll.payrollcontext.domain.PayrollCalculatorTest;
 import top.dddclub.payroll.payrollcontext.domain.Period;
-import top.dddclub.payroll.payrollcontext.domain.Salary;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static top.dddclub.payroll.fixture.EmployeeFixture.hourlyEmployeeOf;
 
-public class HourlyEmployeePayrollCalculatorTest {
+public class HourlyEmployeePayrollCalculatorTest extends PayrollCalculatorTest {
     private Period settlementPeriod;
     private HourlyEmployeeRepository mockRepo;
     private List<HourlyEmployee> hourlyEmployees;
@@ -25,16 +25,13 @@ public class HourlyEmployeePayrollCalculatorTest {
         settlementPeriod = new Period(LocalDate.of(2019, 9, 2), LocalDate.of(2019, 9, 6));
         mockRepo = mock(HourlyEmployeeRepository.class);
         hourlyEmployees = new ArrayList<>();
-        calculator = new HourlyEmployeePayrollCalculator();
+        calculator = new HourlyEmployeePayrollCalculator(mockRepo);
     }
 
     @Test
     public void should_calculate_payroll_when_no_matched_employee_found() {
         //given
         when(mockRepo.allEmployeesOf()).thenReturn(new ArrayList<>());
-
-        HourlyEmployeePayrollCalculator calculator = new HourlyEmployeePayrollCalculator();
-        calculator.setRepository(mockRepo);
 
         //when
         List<Payroll> payrolls = calculator.execute(settlementPeriod);
@@ -52,7 +49,6 @@ public class HourlyEmployeePayrollCalculatorTest {
         hourlyEmployees.add(hourlyEmployee);
 
         when(mockRepo.allEmployeesOf()).thenReturn(hourlyEmployees);
-        calculator.setRepository(mockRepo);
 
         //when
         List<Payroll> payrolls = calculator.execute(settlementPeriod);
@@ -80,7 +76,6 @@ public class HourlyEmployeePayrollCalculatorTest {
         hourlyEmployees.add(hourlyEmployee3);
 
         when(mockRepo.allEmployeesOf()).thenReturn(hourlyEmployees);
-        calculator.setRepository(mockRepo);
 
         //when
         List<Payroll> payrolls = calculator.execute(settlementPeriod);
@@ -92,13 +87,5 @@ public class HourlyEmployeePayrollCalculatorTest {
         assertPayroll(employeeId1, payrolls, 0, settlementPeriod, 4000.00);
         assertPayroll(employeeId2, payrolls, 1, settlementPeriod, 4650.00);
         assertPayroll(employeeId3, payrolls, 2, settlementPeriod, 0.00);
-    }
-
-    private void assertPayroll(String employeeId, List<Payroll> payrolls, int index, Period settlementPeriod, double payrollAmount) {
-        Payroll payroll = payrolls.get(index);
-        assertThat(payroll.employeId().value()).isEqualTo(employeeId);
-        assertThat(payroll.beginDate()).isEqualTo(settlementPeriod.beginDate());
-        assertThat(payroll.endDate()).isEqualTo(settlementPeriod.endDate());
-        assertThat(payroll.amount()).isEqualTo(Salary.of(payrollAmount));
     }
 }

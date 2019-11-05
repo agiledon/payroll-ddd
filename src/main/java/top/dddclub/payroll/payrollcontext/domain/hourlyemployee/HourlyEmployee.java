@@ -5,12 +5,12 @@ import top.dddclub.payroll.core.domain.AbstractEntity;
 import top.dddclub.payroll.core.domain.AggregateRoot;
 import top.dddclub.payroll.employeecontext.domain.EmployeeId;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
+import top.dddclub.payroll.payrollcontext.domain.Payrollable;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Salary;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @DiscriminatorColumn(name = "employeeType", discriminatorType = DiscriminatorType.INTEGER)
 @DiscriminatorOptions(force=true)
 @DiscriminatorValue(value = "0")
-public class HourlyEmployee extends AbstractEntity<EmployeeId> implements AggregateRoot<HourlyEmployee> {
+public class HourlyEmployee extends AbstractEntity<EmployeeId> implements AggregateRoot<HourlyEmployee>, Payrollable {
     private static final double OVERTIME_FACTOR = 1.5;
 
     @EmbeddedId
@@ -57,6 +57,7 @@ public class HourlyEmployee extends AbstractEntity<EmployeeId> implements Aggreg
         return this.timeCards;
     }
 
+    @Override
     public Payroll payroll(Period settlementPeriod) {
         if (Objects.isNull(timeCards) || timeCards.isEmpty()) {
             return new Payroll(this.employeeId, settlementPeriod.beginDate(), settlementPeriod.endDate(), Salary.zero());
