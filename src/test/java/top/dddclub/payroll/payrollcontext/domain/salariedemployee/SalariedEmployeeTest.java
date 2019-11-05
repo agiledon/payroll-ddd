@@ -18,7 +18,7 @@ public class SalariedEmployeeTest {
     @Test
     public void should_return_monthly_salary_if_employee_without_absence() {
         //given
-        SalariedEmployee salariedEmployee = salariedEmployeeOf(employeeId);
+        SalariedEmployee salariedEmployee = salariedEmployeeOf(employeeId, 10000.00);
 
         //when
         Payroll payroll = salariedEmployee.payroll(settlementPeriod);
@@ -34,7 +34,7 @@ public class SalariedEmployeeTest {
     @Test
     public void should_deduct_salary_if_employee_ask_one_day_sick_leave() {
         //given
-        SalariedEmployee salariedEmployee = salariedEmployeeWithOneSickLeaveOf(employeeId);
+        SalariedEmployee salariedEmployee = salariedEmployeeWithOneSickLeaveOf(employeeId, 10000.00);
 
         //when
         Payroll payroll = salariedEmployee.payroll(settlementPeriod);

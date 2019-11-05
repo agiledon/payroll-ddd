@@ -45,29 +45,29 @@ public class EmployeeFixture {
         return timeCards;
     }
 
-    public static SalariedEmployee salariedEmployeeOf(String employeeId) {
-        Salary salaryOfMonth = Salary.of(10000.00);
+    public static SalariedEmployee salariedEmployeeOf(String employeeId, double salary) {
+        Salary salaryOfMonth = Salary.of(salary);
         return new SalariedEmployee(EmployeeId.of(employeeId), salaryOfMonth);
     }
 
-    public static SalariedEmployee salariedEmployeeWithOneSickLeaveOf(String employeeId) {
+    public static SalariedEmployee salariedEmployeeWithOneSickLeaveOf(String employeeId, double salary) {
         Absence sickLeave = createAbsence(2, LeaveReason.SickLeave);
-        return createSalariedEmployeeWithAbsences(employeeId, sickLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, salary, sickLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithOneCasualLeaveOf(String employeeId) {
         Absence casualLeave = createAbsence(2, LeaveReason.CasualLeave);
-        return createSalariedEmployeeWithAbsences(employeeId, casualLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, 10000.00, casualLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithOnePaidLeaveOf(String employeeId) {
         Absence paidLeave = createAbsence(2, LeaveReason.MaternityLeave);
-        return createSalariedEmployeeWithAbsences(employeeId, paidLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, 10000.00, paidLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithOneDisapprovedLeaveOf(String employeeId) {
         Absence disapprovedLeave = createAbsence(2, LeaveReason.DisapprovedLeave);
-        return createSalariedEmployeeWithAbsences(employeeId, disapprovedLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, 10000.00, disapprovedLeave);
     }
 
     public static SalariedEmployee salariedEmployeeWithManyLeavesOf(String employeeId) {
@@ -76,12 +76,12 @@ public class EmployeeFixture {
         Absence paidLeave = createAbsence(4, LeaveReason.MaternityLeave);
         Absence disapprovedLeave = createAbsence(5, LeaveReason.DisapprovedLeave);
 
-        return createSalariedEmployeeWithAbsences(employeeId, sickLeave, casualLeave, paidLeave, disapprovedLeave);
+        return createSalariedEmployeeWithAbsences(employeeId, 10000.00, sickLeave, casualLeave, paidLeave, disapprovedLeave);
     }
 
-    private static SalariedEmployee createSalariedEmployeeWithAbsences(String employeeId, Absence... leaves) {
+    private static SalariedEmployee createSalariedEmployeeWithAbsences(String employeeId, double salary, Absence... leaves) {
         List<Absence> absences = new ArrayList<>(Arrays.asList(leaves));
-        Salary salaryOfMonth = Salary.of(10000.00);
+        Salary salaryOfMonth = Salary.of(salary);
 
         return new SalariedEmployee(EmployeeId.of(employeeId), salaryOfMonth, absences);
     }

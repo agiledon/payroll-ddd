@@ -2,10 +2,9 @@ package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
 import org.junit.Before;
 import org.junit.Test;
-import top.dddclub.payroll.payrollcontext.domain.Salary;
-import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
-import top.dddclub.payroll.fixture.EmployeeFixture;
+import top.dddclub.payroll.payrollcontext.domain.Period;
+import top.dddclub.payroll.payrollcontext.domain.Salary;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -77,7 +76,7 @@ public class HourlyEmployeePayrollCalculatorTest {
         hourlyEmployees.add(hourlyEmployee2);
 
         String employeeId3 = "emp200901011113";
-        HourlyEmployee hourlyEmployee3 = EmployeeFixture.hourlyEmployeeOf(employeeId3, null);
+        HourlyEmployee hourlyEmployee3 = hourlyEmployeeOf(employeeId3, null);
         hourlyEmployees.add(hourlyEmployee3);
 
         when(mockRepo.allEmployeesOf()).thenReturn(hourlyEmployees);
