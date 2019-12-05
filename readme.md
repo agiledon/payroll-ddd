@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/agiledon/payroll-ddd.svg?branch=master)](https://travis-ci.org/agiledon/payroll-ddd)
+[![codecov](https://codecov.io/gh/agiledon/payroll-ddd/branch/master/graph/badge.svg)](https://codecov.io/gh/agiledon/payroll-ddd)
+
 ## 需求
 
 公司雇员有三种类型。一种雇员是钟点工，系统会按照雇员记录中每小时报酬字段的值对他们进行支付。他们每天会提交工作时间卡，其中记录了日期以及工作小时数。如果他们每天工作超过8小时，超过部分会按照正常报酬的1.5倍进行支付。支付日期为每周五。月薪制的雇员以月薪进行支付。每个月的最后一个工作日对他们进行支付。在雇员记录中有月薪字段。销售人员会根据他们的销售情况支付一定数量的酬金（Commssion）。他们会提交销售凭条，其中记录了销售的日期和数量。在他们的雇员记录中有一个酬金报酬字段。每隔一周的周五对他们进行支付。
