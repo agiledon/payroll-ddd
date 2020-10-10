@@ -5,7 +5,7 @@ import org.junit.Test;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.PayrollCalculatorTest;
-import top.dddclub.payroll.payrollcontext.domain.hourlyemployee.PayrollCalculator;
+import top.dddclub.payroll.payrollcontext.domain.PayrollCalculator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

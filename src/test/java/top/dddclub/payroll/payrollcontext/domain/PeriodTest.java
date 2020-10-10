@@ -1,6 +1,7 @@
 package top.dddclub.payroll.payrollcontext.domain;
 
 import org.junit.Test;
+import top.dddclub.payroll.payrollcontext.domain.exceptions.InvalidDateException;
 
 import java.time.LocalDate;
 
@@ -18,6 +19,8 @@ public class PeriodTest {
 
     @Test
     public void should_throw_exception_given_invalid_month_number() {
-        assertThatThrownBy(() -> new Period(2019, 13)).hasMessage("Invalid month value.");
+        assertThatThrownBy(() -> new Period(2019, 13))
+                .isInstanceOf(InvalidDateException.class)
+                .hasMessage("Invalid month value.");
     }
 }

@@ -1,5 +1,6 @@
 package top.dddclub.payroll.payrollcontext.domain.hourlyemployee;
 
+import top.dddclub.payroll.payrollcontext.domain.PayrollCalculator;
 import top.dddclub.payroll.payrollcontext.domain.Period;
 import top.dddclub.payroll.payrollcontext.domain.Payroll;
 
