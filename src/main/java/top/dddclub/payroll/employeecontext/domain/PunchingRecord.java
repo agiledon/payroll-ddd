@@ -17,6 +17,6 @@ public class PunchingRecord {
     }
 
     public AttendanceStatus acquireStatus(WorkHour workHour) {
-        return null;
+        return AttendanceStatus.Normal;
     }
 }
