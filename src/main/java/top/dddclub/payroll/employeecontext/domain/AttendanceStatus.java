@@ -1,7 +1,7 @@
 package top.dddclub.payroll.employeecontext.domain;
 
 public enum AttendanceStatus {
-    Normal, Late;
+    Normal, Late, Leave;
 
     public boolean isNormal() {
         return this == Normal;
@@ -9,5 +9,9 @@ public enum AttendanceStatus {
 
     public boolean isLate() {
         return this == Late;
+    }
+
+    public boolean isLeave() {
+        return this == Leave;
     }
 }
