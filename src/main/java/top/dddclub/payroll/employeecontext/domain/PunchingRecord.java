@@ -17,6 +17,9 @@ public class PunchingRecord {
     }
 
     public AttendanceStatus acquireStatus(WorkHour workHour) {
+        if (workHour.isLate(punchingIn)) {
+            return AttendanceStatus.Late;
+        }
         return AttendanceStatus.Normal;
     }
 }

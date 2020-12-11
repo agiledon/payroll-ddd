@@ -13,7 +13,7 @@ public class PunchingRecordTest {
     public void should_acquire_normal_status() {
         // given
         WorkHour workHour = createWorkHour();
-        PunchingRecord punching = createPunchingRecord();
+        PunchingRecord punching = createPunchingRecord(LocalDateTime.of(2020, 12, 10, 9, 0, 0), LocalDateTime.of(2020, 12, 10, 17, 0, 0));
 
         // when
         AttendanceStatus status = punching.acquireStatus(workHour);
@@ -22,10 +22,23 @@ public class PunchingRecordTest {
         assertThat(status.isNormal()).isTrue();
     }
 
-    private PunchingRecord createPunchingRecord() {
-        String employeeId = "emp0001";
-        LocalDateTime punchingIn = LocalDateTime.of(2020, 12, 10, 9, 0, 0);
+    @Test
+    public void should_acquire_late_status() {
+        // given
+        WorkHour workHour = createWorkHour();
+        LocalDateTime punchingIn = LocalDateTime.of(2020, 12, 10, 9, 16, 0);
         LocalDateTime punchingOut = LocalDateTime.of(2020, 12, 10, 17, 0, 0);
+        PunchingRecord punching = createPunchingRecord(punchingIn, punchingOut);
+
+        // when
+        AttendanceStatus status = punching.acquireStatus(workHour);
+
+        // then
+        assertThat(status.isLate()).isTrue();
+    }
+
+    private PunchingRecord createPunchingRecord(LocalDateTime punchingIn, LocalDateTime punchingOut) {
+        String employeeId = "emp0001";
         LocalDate today = LocalDate.of(2020, 12, 10);
         return new PunchingRecord(employeeId, punchingIn, punchingOut, today);
     }
