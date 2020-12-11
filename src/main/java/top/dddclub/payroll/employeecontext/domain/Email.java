@@ -22,6 +22,9 @@ public class Email {
             throw new InvalidEmailException();
         }
 
+        if (!value.contains("@")) {
+            throw new InvalidEmailAddressException("Invalid email address");
+        }
         this.value = value;
     }
 }
