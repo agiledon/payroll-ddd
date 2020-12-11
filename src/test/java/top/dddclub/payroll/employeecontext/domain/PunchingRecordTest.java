@@ -2,10 +2,10 @@ package top.dddclub.payroll.employeecontext.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import top.dddclub.payroll.fixture.AttendanceFixture;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -16,7 +16,7 @@ public class PunchingRecordTest {
 
     @Before
     public void setUp() {
-        workHour = createWorkHour();
+        workHour = AttendanceFixture.createWorkHour();
     }
 
     @Test
@@ -53,9 +53,4 @@ public class PunchingRecordTest {
         return new PunchingRecord(employeeId, LocalDateTime.of(2020, 12, 10, arrivedHour, arrivedMinuets, 0), LocalDateTime.of(2020, 12, 10, leaveHour, leaveMinutes, 0), today);
     }
 
-    private WorkHour createWorkHour() {
-        LocalTime startTime = LocalTime.of(9, 0, 0);
-        LocalTime endTime = LocalTime.of(17, 0, 0);
-        return new WorkHour(startTime, endTime);
-    }
 }
